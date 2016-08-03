@@ -1,0 +1,21 @@
+{
+  "name": "template",
+  "authors": [
+    "Matt Kraatz <matt.kraatz@gmail.com>"
+  ],
+  "description": "boilerplate repo for new projects",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.1.0"
+  }
+}
