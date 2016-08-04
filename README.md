@@ -1,5 +1,5 @@
 # Set-up Instructions
 
-Add the following to your .gitignore file:
+Perform a "bower install" and "npm install" in your terminal to download all dependencies
 
-Perform a "bower init" and "npm init" in your terminal
+Change the git remote target to your new repo

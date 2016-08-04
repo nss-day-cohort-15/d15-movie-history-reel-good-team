@@ -9,30 +9,54 @@ module.exports = function(grunt) {
   // Plugin configuration
   grunt.initConfig({
     jshint: {
-      src: ['./**/*.js', '!./node_modules/**/*', '!./bower_components/**/*', '!./Gruntfile.js'],
-      options: {
-        jshintrc: true
+      all: {
+        src: ['./**/*.js', '!./node_modules/**/*', '!./bower_components/**/*', '!./Gruntfile.js'],
+        options: {
+          jshintrc: true
+        }
       }
     },
     stylelint: {
-      src: ['./**/*.css', '!./node_modules/**/*', '!./bower_components/**/*']
+      all: {
+        src: ['./**/*.css', '!./node_modules/**/*', '!./bower_components/**/*']
+      }
     },
     watch: {
-      src: ['./**/*.js', '!./node_modules/**/*', '!./bower_components/**/*'],
-      tasks: ['jshint']
+      options: {
+        livereload: true
+      },
+      js: {
+        files: ['./**/*.js', '!./node_modules/**/*', '!./bower_components/**/*'],
+        tasks: ['jshint']
+      },
+      html: {
+        files: ['./**/*.html', '!./node_modules/**/*', '!./bower_components/**/*'],
+        tasks: ['htmlhint']
+      },
+      css: {
+        files: ['./**/*.css', '!./node_modules/**/*', '!./bower_components/**/*'],
+        tasks: ['stylelint']
+      },
+      json: {
+        files: ['./**/*.json', '!./node_modules/**/*', '!./bower_components/**/*'],
+        tasks: ['jsonlint']
+      }
     },
     jsonlint: {
-      sample: {
+      all: {
         src: ['./**/*.json', '!./node_modules/**/*', '!./bower_components/**/*'],
         options: {
-          formatter: 'prose'
+          format: true,
+          indent: 2
         }
       }
     },
     htmlhint: {
-      src: ['./**/*.html', '!./node_modules/**/*', '!./bower_components/**/*']
-      options: {
-        htmlhintrc: '.htmlhintrc'
+      all: {
+        src: ['./**/*.html', '!./node_modules/**/*', '!./bower_components/**/*'],
+        options: {
+          htmlhintrc: '.htmlhintrc'
+        }
       }
     }
   });
