@@ -5,12 +5,17 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-stylelint');
   grunt.loadNpmTasks('grunt-jsonlint');
   grunt.loadNpmTasks('grunt-htmlhint');
+  grunt.loadNpmTasks('grunt-browserify');
+  grunt.loadNpmTasks('grunt-contrib-sass');
 
   // Plugin configuration
   grunt.initConfig({
+    browserify: {
+      './dist/app.js': ['./scripts.js']
+    },
     jshint: {
       all: {
-        src: ['./**/*.js', '!./node_modules/**/*', '!./bower_components/**/*', '!./Gruntfile.js'],
+        src: ['./**/*.js', '!./dist/app.js', '!./node_modules/**/*', '!./bower_components/**/*', '!./Gruntfile.js'],
         options: {
           jshintrc: true
         }
@@ -26,8 +31,8 @@ module.exports = function(grunt) {
         livereload: true
       },
       js: {
-        files: ['./**/*.js', '!./node_modules/**/*', '!./bower_components/**/*'],
-        tasks: ['jshint']
+        files: ['./**/*.js', '!./dist/app.js','!./node_modules/**/*', '!./bower_components/**/*'],
+        tasks: ['browserify','jshint']
       },
       html: {
         files: ['./**/*.html', '!./node_modules/**/*', '!./bower_components/**/*'],
@@ -40,6 +45,10 @@ module.exports = function(grunt) {
       json: {
         files: ['./**/*.json', '!./node_modules/**/*', '!./bower_components/**/*'],
         tasks: ['jsonlint']
+      },
+      sass: {
+        files: ['./**/*.scss', '!./node_modules/**/*', '!./bower_components/**/*'],
+        tasks: ['sass']
       }
     },
     jsonlint: {
@@ -58,7 +67,17 @@ module.exports = function(grunt) {
           htmlhintrc: '.htmlhintrc'
         }
       }
+    },
+    sass: {
+      dist: {
+        options: {
+          style: 'expanded'
+        },
+        files: {                         // Dictionary of files
+          'dist/main.css': 'src/main.scss'       // 'destination': 'source'
+        }
+      }
     }
   });
-
+  grunt.registerTask('default', ['browserify','watch']);
 };
