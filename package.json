@@ -18,10 +18,13 @@
     "grunt-contrib-jshint": "^1.0.0",
     "grunt-contrib-sass": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0",
-    "grunt-htmlhint": "^0.9.13",
+    "grunt-contrib-handlebars": "^1.0.0",
     "grunt-jsonlint": "^1.1.0",
     "grunt-stylelint": "^0.6.0",
-    "http-server": "^0.9.0"
+    "http-server": "^0.9.0",
+    "handlebars": "^4.0.5",
+    "hbsfy": "^2.7.0",
+    "matchdep": "^0.3.0"
   },
   "dependencies": {}
 }

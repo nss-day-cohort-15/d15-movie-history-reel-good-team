@@ -1,17 +1,11 @@
 module.exports = function(grunt) {
-  // Load grunt plugins
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-stylelint');
-  grunt.loadNpmTasks('grunt-jsonlint');
-  grunt.loadNpmTasks('grunt-htmlhint');
-  grunt.loadNpmTasks('grunt-browserify');
-  grunt.loadNpmTasks('grunt-contrib-sass');
 
   // Plugin configuration
   grunt.initConfig({
     browserify: {
-      './dist/app.js': ['./src/scripts.js']
+      js: {'./dist/app.js': ['./src/js/scripts.js']},
+      options: {
+        transform: ['hbsfy']}
     },
     jshint: {
       all: {
@@ -33,10 +27,6 @@ module.exports = function(grunt) {
       js: {
         files: ['./**/*.js', '!./dist/app.js','!./node_modules/**/*', '!./bower_components/**/*'],
         tasks: ['browserify','jshint']
-      },
-      html: {
-        files: ['./**/*.html', '!./node_modules/**/*', '!./bower_components/**/*'],
-        tasks: ['htmlhint']
       },
       css: {
         files: ['./**/*.css', '!./node_modules/**/*', '!./bower_components/**/*'],
@@ -60,24 +50,21 @@ module.exports = function(grunt) {
         }
       }
     },
-    htmlhint: {
-      all: {
-        src: ['./**/*.html', '!./node_modules/**/*', '!./bower_components/**/*'],
-        options: {
-          htmlhintrc: '.htmlhintrc'
-        }
-      }
-    },
     sass: {
       dist: {
         options: {
           style: 'expanded'
         },
         files: {                         // Dictionary of files
-          'dist/main.css': 'src/main.scss'       // 'destination': 'source'
+          'dist/main.css': 'src/sass/main.scss'       // 'destination': 'source'
         }
       }
+    },
+    hbs: {
+      files: ['./templates/**/*.hbs'],
+      tasks: ['browserify']
     }
   });
-  grunt.registerTask('default', ['browserify','watch']);
+  require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+  grunt.registerTask('default', ['browserify','sass','watch']);
 };
