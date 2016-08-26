@@ -37,5 +37,22 @@ function deleteMovie(key) {
   return firebase.database().ref('users/' + userId + "/" + key).remove();
 }
 
+function updateMovie (movieId, property){
+  let userId = firebase.auth().currentUser.uid;
+  return new Promise(function(resolve,reject){
+    $.ajax({
+      url: `https://reel-good-movie-history.firebaseio.com/users/${userId}/${movieId}.json`,
+      method: 'PATCH',
+      data: JSON.stringify(property),
+      dataType: "json"
+    }).done(function(movie){
+      console.log(movie);
+      resolve(movie);
+    }).fail(function(error){
+      reject(error);
+    });
+  });
+}
 
-module.exports = {searchOMDB, saveMovie, getSavedMovies, deleteMovie};
+
+module.exports = {searchOMDB, saveMovie, getSavedMovies, deleteMovie, updateMovie};

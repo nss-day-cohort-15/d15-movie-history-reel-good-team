@@ -18,9 +18,9 @@
   <p> Released in {{Year}} </p>
   <p> {{Actors}} </p>
   {{#if watched}}
-  <span class="rating"> RATING </span>
+  <span class="rating"> RATING <input type="number" min="1" max="5" class="userRating" key="{{@key}}"></span>
   {{else}}
-  <button type="button" class="watchedMovie"> Seen It! </button>
+  <button type="button" class="watchedMovieProfile" key="{{@key}}"> Seen It! </button>
   {{/if}}
 </div>
 </div>

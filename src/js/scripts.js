@@ -65,10 +65,7 @@ $(document).on('click','.delete-btn',function(evt){
   let key = $(evt.currentTarget).attr("key");
   db.deleteMovie(key)
     .then(function(){
-      db.getSavedMovies()
-        .then(function(data){
-          template.showProfile(data);
-        });
+      reloadProfile();
     });
 });
 
@@ -76,7 +73,7 @@ $(document).on('click','.delete-btn',function(evt){
 
 $(document).on('click', '.showWatched', function() {
   $('.movieCard').css('display', 'inline-block');
-  $('.watchedMovie').parent().css('display', 'none');
+  $('.watchedMovieProfile').parent().css('display', 'none');
 });
 
 $(document).on('click', '.showUnwatched', function() {
@@ -87,3 +84,41 @@ $(document).on('click', '.showUnwatched', function() {
 $(document).on('click', '.showAll', function() {
   $('.movieCard').css('display', 'inline-block');
 });
+
+// UPDATE SEEN MOVIES IN PROFILE
+$(document).on('click', '.watchedMovieProfile', updateWatchedMovie);
+$(document).on('keypress', '.userRating', updateRating);
+
+function updateWatchedMovie (e){
+  let movieId = $(e.currentTarget).attr('key');
+  let watched = {"watched": true};
+  db.updateMovie(movieId, watched)
+    .then(()=>{
+      reloadProfile();
+    })
+}
+
+
+function updateRating (e){
+  if (e.keyCode === 13 && $('.userRating').val()) {
+    let movieId = $(e.currentTarget).attr('key');
+    let rating= {"rating": $('.userRating').val()};
+    db.updateMovie(movieId, rating)
+      .then(()=>{
+        console.log("rating?", rating);
+        reloadProfile();
+      })
+    }
+}
+
+
+function reloadProfile (){
+  db.getSavedMovies()
+    .then(function(data){
+      console.log("movie data", data);
+      template.showProfile(data);
+    });
+}
+
+
+
