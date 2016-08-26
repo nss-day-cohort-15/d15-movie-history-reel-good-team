@@ -1,0 +1,29 @@
+
+<div class="row center-align">
+  <h1> Watchlist </h1>
+  <a class="waves-effect waves-grey btn-flat showWatched">Show Watched</a>
+  <a class="waves-effect waves-grey btn-flat showUnwatched">Show Unwatched</a>
+  <a class="waves-effect waves-grey btn-flat showAll">Show All Movies</a>
+</div>
+<div class="row">
+{{#each this}}
+<div class="col s6">
+  <div class="z-depth-1 movieCard">
+  <div class="chip right-align delete-btn" key="{{@key}}">
+    Delete
+    <i class="close material-icons">close</i>
+  </div>
+  <h3 class="title"> {{Title}} </h3>
+  <img src="{{Poster}}" alt="{{Title}} Image" class="movieImg">
+  <p> Released in {{Year}} </p>
+  <p> {{Actors}} </p>
+  {{#if watched}}
+  <span class="rating"> RATING </span>
+  {{else}}
+  <button type="button" class="watchedMovie"> Seen It! </button>
+  {{/if}}
+</div>
+</div>
+{{/each}}
+</div>
+
