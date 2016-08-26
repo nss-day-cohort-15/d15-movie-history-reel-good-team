@@ -1,4 +1,5 @@
-@mixin
+
+
 body {
   background-color: azure;
 }
@@ -19,5 +20,6 @@ body {
 }
 
 .userRating:hover {
-  color: goldenrod;
+  // #if
+  // @include userRating(.1);
 }
