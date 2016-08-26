@@ -1,6 +1,6 @@
 "use strict";
 
-let firebase = require('firebase/app')
+let firebase = require('firebase/app');
 
 function searchOMDB(title) {
   title = title.replace(' ','+');
@@ -9,13 +9,12 @@ function searchOMDB(title) {
       url: `http://www.omdbapi.com/?type=movie&tomatoes=true&t=${title}`,
       method: 'GET'
     }).done(function(data){
-      console.log(this.statusText);
+      console.log(data);
       resolve(data);
     }).fail(function(error){
-      console.log(this.statusText);
       reject(error);
-    })
-  })
+    });
+  });
 }
 
 function saveMovie(currentMovie) {
@@ -23,5 +22,20 @@ function saveMovie(currentMovie) {
   return firebase.database().ref('users/' + userId).push(currentMovie);
 }
 
+function getSavedMovies() {
+  let userId = firebase.auth().currentUser.uid;
+  return firebase.database().ref('users/' + userId)
+    .once('value')
+    .then(function(snapshot) {
+    var data = snapshot.val();
+    return data;
+  });
+}
 
-module.exports = {searchOMDB, saveMovie};
+function deleteMovie(key) {
+  let userId = firebase.auth().currentUser.uid;
+  return firebase.database().ref('users/' + userId + "/" + key).remove();
+}
+
+
+module.exports = {searchOMDB, saveMovie, getSavedMovies, deleteMovie};

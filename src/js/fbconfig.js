@@ -5,7 +5,7 @@ let fbKey = require("./fbkeys"),
     firebase = require("firebase/app");
 
 require("firebase/auth");
-require("firebase/database")
+require("firebase/database");
 
 var config = {
   apiKey: fbData.key,

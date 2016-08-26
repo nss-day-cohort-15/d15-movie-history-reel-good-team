@@ -29,6 +29,10 @@ module.exports = function(grunt) {
         files: ['./**/*.js', '!./dist/app.js','!./node_modules/**/*', '!./bower_components/**/*'],
         tasks: ['browserify','jshint']
       },
+      hbs: {
+        files: ['./**/*.hbs', '!./node_modules/**/*', '!./bower_components/**/*'],
+        tasks: ['browserify']
+      },
       css: {
         files: ['./**/*.css', '!./node_modules/**/*', '!./bower_components/**/*'],
         tasks: ['stylelint']

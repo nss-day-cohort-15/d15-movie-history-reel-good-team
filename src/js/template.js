@@ -1,9 +1,21 @@
 "use strict";
 
-let searchMovies = require('../templates/searchResults.hbs');
+let searchMovies = require('./../templates/findMovies.hbs'),
+    showSavedMovies = require('./../templates/savedMovies.hbs');
+var Handlebars = require('hbsfy/runtime');
+
+Handlebars.registerPartial('searchResults', require('./../templates/partials/searchResults.hbs'));
 
 function showSearchResults (searchData){
-  $('.content').html(searchMovies(searchData));
+  $('.display').html(searchMovies(searchData));
 }
 
-module.exports = showSearchResults;
+function showFindMovie (){
+  $('.display').html(searchMovies);
+}
+
+function showProfile(data) {
+  $('.display').html(showSavedMovies(data));
+}
+
+module.exports = {showSearchResults, showFindMovie, showProfile};

@@ -5,3 +5,14 @@ body {
 .movieImg {
   max-width: 100%;
 }
+
+.hidden {
+  display: none;
+}
+
+.movieCard {
+  height: 700px;
+  overflow: scroll;
+  margin: 10px;
+  padding: 5px;
+}
