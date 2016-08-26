@@ -4,15 +4,35 @@
  <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>KRAATZ HELLO</title>
-  <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>REEL GOOD MOVIE HISTORY</title>
+  <link rel="stylesheet" type="text/css" href="bower_components/materialize/dist/css/materialize.min.css">
   <link rel="stylesheet" type="text/css" href="dist/main.css">
 </head>
 <body>
 
+<nav>
+  <div class="nav-wrapper">
+    <a href="#" class="brand-logo left">MOVIES</a>
+    <ul id="nav-mobile" class="right">
+      <li><a href="#" class="active">Find New Movies</a></li>
+      <li><a href="#">Search Your Movies</a></li>
+      <li><a href="#" id="loginButton">Login/Register</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="row">
+  <div class="col s4 offset-s2">
+    <div class="input-field">
+      <label for="title">Search by Title</label>
+        <input type="text" name="title" id="title">
+    </div>
+  </div>
+</div>
+<div class="row content"></div>
 
 <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
-<script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="bower_components/materialize/dist/js/materialize.min.js"></script>
 <script type="text/javascript" src="dist/app.js"></script>
 <script src="//localhost:35729/livereload.js"></script>
 </body>

@@ -3,7 +3,8 @@ module.exports = function(grunt) {
   // Plugin configuration
   grunt.initConfig({
     browserify: {
-      js: {'./dist/app.js': ['./src/js/scripts.js']},
+      js: {src: ['./src/js/scripts.js'],
+        dest: './dist/app.js'},
       options: {
         transform: ['hbsfy']}
     },

@@ -26,5 +26,7 @@
     "hbsfy": "^2.7.0",
     "matchdep": "^0.3.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "firebase": "^3.3.0"
+  }
 }
