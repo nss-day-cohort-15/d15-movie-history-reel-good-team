@@ -79,6 +79,7 @@ function saveMovie (bool){
   db.saveMovie(currentMovie)
   .then(function(data) {
     console.log(data);
+    Materialize.toast("<span class='showSaved'>Saved!</span>", 2000);
     $('.content').html("");
   });
 }
@@ -98,6 +99,7 @@ $(document).on('click','.delete-btn',function(evt){
   let key = $(evt.currentTarget).attr("key");
   db.deleteMovie(key)
     .then(function(){
+      Materialize.toast("<span class='showDeleted'> Deleted! </span>", 2000);
       showProfileView();
     });
 });
