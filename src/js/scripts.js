@@ -98,7 +98,7 @@ $(document).on('click','.delete-btn',function(evt){
   let key = $(evt.currentTarget).attr("key");
   db.deleteMovie(key)
     .then(function(){
-      reloadProfile();
+      showProfileView();
     });
 });
 

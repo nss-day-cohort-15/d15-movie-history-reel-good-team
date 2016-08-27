@@ -17,6 +17,7 @@
   <img src="{{Poster}}" alt="{{Title}} Image" class="movieImg">
   <p> Released in {{Year}} </p>
   <p> {{Actors}} </p>
+  <p> <img src="../icons/{{tomatoImage}}.png" alt="rotten tomatoes rating is: {{tomatoImage}}" class="rtomatoRating"> {{tomatoRating}}/10 </p>
   {{#if watched}}
   <span class="rating"> RATING <input type="number" min="1" max="5" class="userRating" key="{{@key}}"></span>
   {{else}}

@@ -8,6 +8,9 @@
   </div>
 </div>
 <div class="row content">
+{{#if Error}}
+    <h3 class="center-align"> {{Error}} Please try another title! </h3>
+{{/if}}
 </div>
 {{#if Title}}
 {{> searchResults}}
