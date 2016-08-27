@@ -32,6 +32,7 @@ $(document).on('click', '#loginButton', function() {
     showBtn ('logoutButton', 'loginButton');
     $('.findMovies').removeClass("hidden");
     $('.profile').removeClass("hidden");
+    showProfileView();
   });
 });
 
@@ -56,7 +57,7 @@ $(document).on('keypress','#title',function(evt){
         currentMovie = data;
         $('#title').val("");
         template.showSearchResults(data);
-      });
+    });
   }
 });
 
@@ -83,16 +84,16 @@ function saveMovie (bool){
 }
 
 // PROFILE FUNCTIONALITY
+$(document).on('click','.profile', showProfileView);
 
-$(document).on('click','.profile',function(){
+function showProfileView (){
   db.getSavedMovies()
     .then(function(data){
       template.showProfile(data);
     });
-});
+}
 
 // DELETE BUTTON FUNCTIONALITY
-
 $(document).on('click','.delete-btn',function(evt){
   let key = $(evt.currentTarget).attr("key");
   db.deleteMovie(key)
@@ -102,7 +103,6 @@ $(document).on('click','.delete-btn',function(evt){
 });
 
 // SHOW UNWATCHED OR WATCHED FILMS WITHIN PROFILE
-
 $(document).on('click', '.showWatched', function() {
   $('.movieCard').css('display', 'inline-block');
   $('.watchedMovieProfile').parent().css('display', 'none');
@@ -126,11 +126,11 @@ function updateWatchedMovie (e){
   let watched = {"watched": true};
   db.updateMovie(movieId, watched)
     .then(()=>{
-      reloadProfile();
+      showProfileView();
     });
 }
 
-
+//UPDATE THE RATING GIVEN
 function updateRating (e){
   if (e.keyCode === 13 && $('.userRating').val()) {
     let movieId = $(e.currentTarget).attr('key');
@@ -138,19 +138,12 @@ function updateRating (e){
     db.updateMovie(movieId, rating)
       .then(()=>{
         console.log("rating?", rating);
-        reloadProfile();
+        showProfileView();
       });
     }
 }
 
 
-function reloadProfile (){
-  db.getSavedMovies()
-    .then(function(data){
-      console.log("movie data", data);
-      template.showProfile(data);
-    });
-}
 
 
 
