@@ -2,16 +2,48 @@
 
 let auth = require('./auth'),
     db = require('./db-interaction'),
-    template = require('./template.js');
+    template = require('./template.js'),
+    firebase = require("firebase/app");
 
 let currentMovie;
 
-// LOGIN BUTTON FUNCTIONALITY
-$('#loginButton').click(function() {
-  auth().then(function(){
-    $('#loginButton').html('Logout');
+//IS A USER LOGGED IN?
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    showBtn ('logoutButton', 'loginButton');
     $('.findMovies').removeClass("hidden");
     $('.profile').removeClass("hidden");
+  } else {
+    showBtn ('loginButton', 'logoutButton');
+  }
+});
+
+//SHOW THE CORRECT BUTTON BASED ON WHETHER USER IS LOGGED IN OR NOT
+function showBtn (id1, id2){
+  $(`#${id1}`).removeClass('hidden');
+  $(`#${id2}`).addClass('hidden');
+}
+
+// LOGIN BUTTON FUNCTIONALITY
+$(document).on('click', '#loginButton', function() {
+  auth.loginWithGoogle()
+  .then(function(){
+    console.log("welcome!");
+    showBtn ('logoutButton', 'loginButton');
+    $('.findMovies').removeClass("hidden");
+    $('.profile').removeClass("hidden");
+  });
+});
+
+// LOGOUT BUTTON FUNCTIONALITY
+$(document).on('click', '#logoutButton', function() {
+  auth.logoutWithGoogle()
+  .then(function(){
+    console.log("goodbye");
+    showBtn ('loginButton', 'logoutButton');
+    $('.findMovies').addClass("hidden");
+    $('.profile').addClass("hidden");
+    $('.display').html("");
   });
 });
 
@@ -95,7 +127,7 @@ function updateWatchedMovie (e){
   db.updateMovie(movieId, watched)
     .then(()=>{
       reloadProfile();
-    })
+    });
 }
 
 
@@ -107,7 +139,7 @@ function updateRating (e){
       .then(()=>{
         console.log("rating?", rating);
         reloadProfile();
-      })
+      });
     }
 }
 
