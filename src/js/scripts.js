@@ -58,7 +58,7 @@ $(document).on('click',".watchedMovie",function(){
   saveMovie(true);});
 
 function saveMovie (bool){
-  if (!savedMovieIDs.includes(currentMovie)) {
+  if (savedMovieIDs.includes(currentMovie.imdbID)) {
     window.alert("you've already saved that movie, dawg");
   } else {
     currentMovie.watched = bool;
