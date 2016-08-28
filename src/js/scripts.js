@@ -2,12 +2,14 @@
 
 let auth = require('./auth'),
     db = require('./db-interaction'),
-    template = require('./template.js');
+    template = require('./template.js'),
+    firebase = require('firebase/app');
 
 let currentMovie, savedMovieIDs;
 
 // LOGIN BUTTON FUNCTIONALITY
 $('#loginButton').click(function() {
+
   if (!firebase.auth().currentUser.uid){
     auth().then(function(){
       $('#loginButton').html('Logout');
@@ -37,9 +39,9 @@ $(document).on('keypress','#title',function(evt){
       .then(function(data){
         for (let movie in data) {
           savedMovieIDs.push(data[movie].imdbID);
-        };
+        }
         console.log(savedMovieIDs);
-      })
+      });
   }
 });
 
@@ -57,7 +59,7 @@ $(document).on('click',".watchedMovie",function(){
 
 function saveMovie (bool){
   if (!savedMovieIDs.includes(currentMovie)) {
-    window.alert("you've already saved that movie, dawg")
+    window.alert("you've already saved that movie, dawg");
   } else {
     currentMovie.watched = bool;
     currentMovie.rating = 0;
