@@ -1,3 +1,5 @@
+
+
 body {
   background-color: azure;
 }
@@ -15,4 +17,9 @@ body {
   overflow: scroll;
   margin: 10px;
   padding: 5px;
+}
+
+.userRating:hover {
+  // #if
+  // @include userRating(.1);
 }
