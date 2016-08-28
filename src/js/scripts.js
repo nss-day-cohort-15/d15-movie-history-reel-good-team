@@ -11,16 +11,18 @@ let currentMovie, savedMovieIDs;
 $('#loginButton').click(function() {
   if (!firebase.auth().currentUser.uid){
     auth().then(function(){
-      $('#loginButton').html('Logout');
-      $('.findMovies').removeClass("hidden");
-      $('.profile').removeClass("hidden");
+      showLoggedIn();
     });
   } else {
-      $('#loginButton').html('Logout');
-      $('.findMovies').removeClass("hidden");
-      $('.profile').removeClass("hidden");
+    showLoggedIn();
   }
 });
+
+function showLoggedIn() {
+  $('#loginButton').html('Logout');
+  $('.findMovies').removeClass("hidden");
+  $('.profile').removeClass("hidden");
+}
 
 // MOVIE SEARCH FUNCTIONALITY
 $(document).on('keypress','#title',function(evt){
