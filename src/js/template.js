@@ -6,6 +6,12 @@ var Handlebars = require('hbsfy/runtime');
 
 Handlebars.registerPartial('searchResults', require('./../templates/partials/searchResults.hbs'));
 
+Handlebars.registerHelper('activateStars',function(rating, index, options){
+  if (rating >= index) {
+    return 'active-star'
+  }
+})
+
 function showSearchResults (searchData){
   $('.display').html(searchMovies(searchData));
 }

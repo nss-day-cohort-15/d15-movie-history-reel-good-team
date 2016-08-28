@@ -19,7 +19,18 @@ body {
   padding: 5px;
 }
 
-.userRating:hover {
-  // #if
-  // @include userRating(.1);
+.active-star {
+  color: goldenrod;
+}
+
+i {
+  cursor: pointer;
+}
+
+.rating:hover i {
+  color: goldenrod;
+}
+
+.rating i:hover ~ i {
+  color: black;
 }

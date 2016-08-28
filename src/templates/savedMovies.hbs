@@ -19,11 +19,11 @@
   <p> {{Actors}} </p>
   {{#if watched}}
   <span class="rating"> Rate
-    <i key="{{@key}}" id="1-{{@key}}" class="1 material-icons userRating">star</i>
-    <i key="{{@key}}" id="2-{{@key}}" class="2 material-icons userRating">star</i>
-    <i key="{{@key}}" id="3-{{@key}}" class="3 material-icons userRating">star</i>
-    <i key="{{@key}}" id="4-{{@key}}" class="4 material-icons userRating">star</i>
-    <i key="{{@key}}" id="5-{{@key}}" class="5 material-icons userRating">star</i>
+    <i key="{{@key}}" id="1-{{@key}}" class="1 material-icons userRating {{activateStars rating 1}}">star</i>
+    <i key="{{@key}}" id="2-{{@key}}" class="2 material-icons userRating {{activateStars rating 2}}">star</i>
+    <i key="{{@key}}" id="3-{{@key}}" class="3 material-icons userRating {{activateStars rating 3}}">star</i>
+    <i key="{{@key}}" id="4-{{@key}}" class="4 material-icons userRating {{activateStars rating 4}}">star</i>
+    <i key="{{@key}}" id="5-{{@key}}" class="5 material-icons userRating {{activateStars rating 5}}">star</i>
   </span>
   {{#if rating}}
   <span> You've rated this movie {{rating}} stars.</span>
