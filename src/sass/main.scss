@@ -23,14 +23,14 @@ body {
   color: goldenrod;
 }
 
+.hover-star {
+  color: goldenrod;
+}
+
 i {
   cursor: pointer;
 }
 
-.rating:hover i {
-  color: goldenrod;
-}
-
-.rating i:hover ~ i {
+.black-star {
   color: black;
 }
