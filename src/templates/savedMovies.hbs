@@ -8,6 +8,24 @@
   <a class="waves-effect waves-grey btn-flat showFavorites">Favorites</a>
 </div>
 <div class="row">
+
+{{#unless this}}
+  <div class="col offset-m1 m8">
+    <h4>You need to search and add movies to your account.</h4>
+      <ul>
+        <li>
+          First you need to search for an item using the above search bar!
+        </li>
+        <li>
+          Then you can click <button class="waves-effect waves-light btn">Add to Watchlist</button>
+        </li>
+        <li>
+          After you follow these steps go ahead and rate your movie using <i class="material-icons">STAR</i>
+        </li>
+      </ul>
+
+  </div>
+{{/unless}}
 {{#each this}}
 <div class="col m4 col s6">
   <div class="z-depth-1 movieCard center-align">
@@ -33,7 +51,7 @@
     <i key="{{@key}}" class="10 material-icons userRating {{activateStars rating 10}}">star</i>
   </span>
   {{else}}
-    <button type="button" class="addMovie" key="{{@key}}"> Add to Watchlist </button>
+    <button type="button" class="addMovie waves-effect waves-light btn" key="{{@key}}"> Add to Watchlist </button>
   {{/if}}
   {{#if rating}}
   <span> You've rated this movie {{rating}} stars.</span>

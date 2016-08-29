@@ -191,6 +191,7 @@ function updateRating (e){
       template.showProfile(finalListOfMovies);
   });
 }
+// 
 
 // function updateWatchedMovie (e){
 //   let movieId = $(e.currentTarget).attr('key');
