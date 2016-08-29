@@ -2,6 +2,8 @@
 
 let auth = require('./auth'),
     db = require('./db-interaction'),
+    buttonEvents = require('./button-events'),
+    starHover = require('./star-hover'),
     template = require('./template.js'),
     firebase = require("firebase/app");
 
@@ -123,7 +125,7 @@ function saveMovie(evt, bool) {
   });
 }
 
-// PROFILE FUNCTIONALITY
+// PROFILE DISPLAYS ON LOGIN
 function showProfileView (){
   db.getSavedMovies()
     .then(function(data){
@@ -137,69 +139,14 @@ $(document).on('click','.delete-btn',function(evt){
   let key = $(evt.currentTarget).attr("key");
   db.deleteMovie(key)
     .then(function(){
+      delete finalListOfMovies[key];
       template.showProfile(finalListOfMovies);
     });
 });
 
-// SHOW UNWATCHED OR WATCHED FILMS WITHIN PROFILE
-$(document).on('click', '.showWatched', function(evt) {
-  let $activeFilter = $(evt.currentTarget);
-  $activeFilter.siblings().removeClass('active-button');
-  $activeFilter.addClass('active-button');
-  $('.movieCard').hide();
-  $('.movieCard[saved=true]').show();
-  $('.movieCard[rating=0]').hide();
-});
-
-$(document).on('click', '.showUnwatched', function(evt) {
-  let $activeFilter = $(evt.currentTarget);
-  $activeFilter.siblings().removeClass('active-button');
-  $activeFilter.addClass('active-button');
-  $('.movieCard').hide();
-  $('.movieCard[rating=0]').show();
-});
-
-$(document).on('click', '.showFavorites', function(evt) {
-  let $activeFilter = $(evt.currentTarget);
-  $activeFilter.siblings().removeClass('active-button');
-  $activeFilter.addClass('active-button');
-  $('.movieCard').hide();
-  $('.movieCard[rating=10]').show();
-});
-
-$(document).on('click', '.showUntracked', function(evt) {
-  let $activeFilter = $(evt.currentTarget);
-  $activeFilter.siblings().removeClass('active-button');
-  $activeFilter.addClass('active-button');
-  $('.movieCard').show();
-  $('.movieCard[saved=true]').hide();
-});
-
-// STAR HOVER FUNCTIONALITY
-
-$(document).on({
-  mouseenter: starHoverOn,
-  mouseleave: starHoverOff
-},'i');
-
-function starHoverOn(evt) {
-  let $hoverStar = $(evt.currentTarget);
-  $hoverStar.addClass('current-star hover-star');
-  $hoverStar.siblings().addClass('hover-star');
-  $('.current-star ~ i').removeClass('hover-star').addClass('black-star');
-}
-
-function starHoverOff(evt) {
-  let $hoverStar = $(evt.currentTarget);
-  $hoverStar.removeClass('current-star hover-star');
-  $hoverStar.siblings().removeClass('hover-star');
-  $hoverStar.siblings().removeClass('black-star');
-}
-
-// UPDATE SEEN MOVIES IN PROFILE
+// UPDATE MOVIE RATINGS
 $(document).on('click', '.userRating', updateRating);
 
-//UPDATE THE RATING GIVEN
 function updateRating (e){
   let movieId = $(e.currentTarget).attr('key');
   let ratingValue = $(e.currentTarget).attr('class').split(' ')[0];
@@ -210,20 +157,3 @@ function updateRating (e){
       template.showProfile(finalListOfMovies);
   });
 }
-
-// function updateWatchedMovie (e){
-//   let movieId = $(e.currentTarget).attr('key');
-//   let watched = {"watched": true};
-//   db.updateMovie(movieId, watched)
-//     .then(()=>{
-//       showProfileView();
-//     });
-// }
-
-// function reloadProfile() {
-//   db.getSavedMovies()
-//     .then(function(data) {
-//         console.log("movie data", data);
-//         template.showProfile(data);
-//     });
-// }
