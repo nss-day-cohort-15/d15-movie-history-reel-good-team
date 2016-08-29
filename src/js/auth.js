@@ -8,4 +8,8 @@ function loginWithGoogle() {
   return firebase.auth().signInWithPopup(provider);
 }
 
-module.exports = loginWithGoogle;
+function logoutWithGoogle() {
+  return firebase.auth().signOut();
+}
+
+module.exports = {loginWithGoogle, logoutWithGoogle};
