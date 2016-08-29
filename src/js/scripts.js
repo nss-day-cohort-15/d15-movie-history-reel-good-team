@@ -116,10 +116,8 @@ function saveMovie(evt, bool) {
   finalListOfMovies[key].saved = true;
   db.saveMovie(finalListOfMovies[key])
   .then(function(data) {
-    console.log("data", data.path.o[2]);
     finalListOfMovies[data.path.o[2]] = finalListOfMovies[key];
     delete finalListOfMovies[key];
-    console.log("final list with correct key?", finalListOfMovies);
     template.showProfile(finalListOfMovies);
   });
 }
@@ -139,7 +137,7 @@ $(document).on('click','.delete-btn',function(evt){
   let key = $(evt.currentTarget).attr("key");
   db.deleteMovie(key)
     .then(function(){
-      reloadProfile();
+      template.showProfile(finalListOfMovies);
     });
 });
 
@@ -182,7 +180,18 @@ function starHoverOff(evt) {
 // UPDATE SEEN MOVIES IN PROFILE
 $(document).on('click', '.watchedMovieProfile', updateWatchedMovie);
 
-$(document).on('keypress', '.userRating', updateRating);
+$(document).on('click', '.userRating', updateRating);
+
+//UPDATE THE RATING GIVEN
+function updateRating (e){
+  let movieId = $(e.currentTarget).attr('key');
+  let rating= {"rating": $(e.currentTarget).attr('class').split(' ')[0]};
+  db.updateMovie(movieId, rating)
+    .then(()=>{
+      console.log("rating?", rating);
+      template.showProfile(finalListOfMovies);
+  });
+}
 
 function updateWatchedMovie (e){
   let movieId = $(e.currentTarget).attr('key');
@@ -193,24 +202,10 @@ function updateWatchedMovie (e){
     });
 }
 
-//UPDATE THE RATING GIVEN
-function updateRating (e){
-  if (e.keyCode === 13 && $('.userRating').val()) {
-    let movieId = $(e.currentTarget).attr('key');
-    let rating= {"rating": $('.userRating').val()};
-    db.updateMovie(movieId, rating)
-      .then(()=>{
-        console.log("rating?", rating);
-        showProfileView();
-      });
-    }
-}
-
-
-function reloadProfile() {
-    db.getSavedMovies()
-        .then(function(data) {
-            console.log("movie data", data);
-            template.showProfile(data);
-        });
-}
+// function reloadProfile() {
+//   db.getSavedMovies()
+//     .then(function(data) {
+//         console.log("movie data", data);
+//         template.showProfile(data);
+//     });
+// }
