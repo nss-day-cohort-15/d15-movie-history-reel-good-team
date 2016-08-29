@@ -55,6 +55,7 @@ $(document).on('click', '#logoutButton', function() {
 $(document).on('keypress','#title',function(evt){
   if (evt.keyCode === 13) {
     $('.mainBread').html('Search > ');
+    $('.secondBread').html('');
     finalListOfMovies = {};
     let title = $('#title').val();
     // Call firebase for filtered searh results
