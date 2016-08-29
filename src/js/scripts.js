@@ -63,29 +63,32 @@ $(document).on('keypress','#title',function(evt){
 
 $(document).on('click', '.findMovies', showFindMovies);
 
-function showFindMovies(){
-  template.showFindMovie();
+function showFindMovies() {
+    template.showFindMovie();
 }
 
 // SAVE MOVIE FUNCTIONALITY
-$(document).on('click',".addMovie",function(){
-  saveMovie(false);});
-$(document).on('click',".watchedMovie",function(){
-  saveMovie(true);});
+$(document).on('click', ".addMovie", function() {
+    saveMovie(false);
+});
+$(document).on('click', ".watchedMovie", function() {
+    saveMovie(true);
+});
 
-function saveMovie (bool){
-  currentMovie.watched = bool;
-  currentMovie.rating = 0;
-  db.saveMovie(currentMovie)
-  .then(function(data) {
-    console.log(data);
-    $('.content').html("");
-  });
+function saveMovie(bool) {
+    currentMovie.watched = bool;
+    currentMovie.rating = 0;
+    db.saveMovie(currentMovie)
+        .then(function(data) {
+            console.log(data);
+            $('.content').html("");
+        });
 }
 
 // PROFILE FUNCTIONALITY
 $(document).on('click','.profile', showProfileView);
 
+<<<<<<< HEAD
 function showProfileView (){
   db.getSavedMovies()
     .then(function(data){
@@ -104,21 +107,22 @@ $(document).on('click','.delete-btn',function(evt){
 
 // SHOW UNWATCHED OR WATCHED FILMS WITHIN PROFILE
 $(document).on('click', '.showWatched', function() {
-  $('.movieCard').css('display', 'inline-block');
-  $('.watchedMovieProfile').parent().css('display', 'none');
+    $('.movieCard').css('display', 'inline-block');
+    $('.watchedMovieProfile').parent().css('display', 'none');
 });
 
 $(document).on('click', '.showUnwatched', function() {
-  $('.movieCard').css('display', 'inline-block');
-  $('.rating').parent().css('display', 'none');
+    $('.movieCard').css('display', 'inline-block');
+    $('.rating').parent().css('display', 'none');
 });
 
 $(document).on('click', '.showAll', function() {
-  $('.movieCard').css('display', 'inline-block');
+    $('.movieCard').css('display', 'inline-block');
 });
 
 // UPDATE SEEN MOVIES IN PROFILE
 $(document).on('click', '.watchedMovieProfile', updateWatchedMovie);
+<<<<<<< HEAD
 $(document).on('keypress', '.userRating', updateRating);
 
 function updateWatchedMovie (e){
@@ -144,6 +148,10 @@ function updateRating (e){
 }
 
 
-
-
-
+function reloadProfile() {
+    db.getSavedMovies()
+        .then(function(data) {
+            console.log("movie data", data);
+            template.showProfile(data);
+        });
+}
