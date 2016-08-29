@@ -42,13 +42,19 @@ function saveMovie(currentMovie) {
 }
 
 function getSavedMovies() {
-  let userId = firebase.auth().currentUser.uid;
-  return firebase.database().ref('users/' + userId)
-    .once('value')
-    .then(function(snapshot) {
-    var data = snapshot.val();
-    return data;
-  });
+  if (firebase.auth().currentUser) {
+    let userId = firebase.auth().currentUser.uid;
+    return firebase.database().ref('users/' + userId)
+      .once('value')
+      .then(function(snapshot) {
+      var data = snapshot.val();
+      return data;
+    });
+  } else {
+    return new Promise(function(resolve,reject) {
+      resolve();
+    })
+  }
 }
 
 function deleteMovie(key) {
