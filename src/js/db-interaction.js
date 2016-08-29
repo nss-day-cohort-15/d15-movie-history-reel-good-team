@@ -24,7 +24,6 @@ function getMovieByID(id) {
       url: `http://www.omdbapi.com/?type=movie&i=${id}`,
       method: 'GET'
     }).done(function(data){
-      console.log(data);
       resolve(data);
     }).fail(function(error){
       reject(error);

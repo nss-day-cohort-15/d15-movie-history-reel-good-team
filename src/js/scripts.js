@@ -7,14 +7,15 @@ let auth = require('./auth'),
 
 let OMDbMovies,
 fbData= {},
-OMDbIDs = [],
-finalListOfMovies= {};
+OMDbIDs = [];
+
+var finalListOfMovies = {};
 
 //IS A USER LOGGED IN?
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
     showBtn ('logoutButton', 'loginButton');
-    showProfileView();
+    // showProfileView();
   } else {
     showBtn ('loginButton', 'logoutButton');
   }
@@ -32,9 +33,7 @@ $(document).on('click', '#loginButton', function() {
   .then(function(){
     console.log("welcome!");
     showBtn ('logoutButton', 'loginButton');
-    $('.findMovies').removeClass("hidden");
-    $('.profile').removeClass("hidden");
-    showProfileView();
+    // showProfileView();
   });
 });
 
@@ -71,6 +70,8 @@ $(document).on('keypress','#title',function(evt){
          $('#title').val("");
          console.log("first call to OMDB", OMDbMovies);
          var numberOfMovies = OMDbIDs.length;
+         finalListOfMovies = {};
+         console.log(Object.keys(finalListOfMovies).length)
          OMDbIDs.forEach(function(id, index){
            for (let movieOption in fbData) {
             // Compare OMDb and Firebase results
@@ -123,12 +124,11 @@ function saveMovie(evt, bool) {
 }
 
 // PROFILE FUNCTIONALITY
-$(document).on('click','.profile', showProfileView);
-
 function showProfileView (){
   db.getSavedMovies()
     .then(function(data){
-      template.showProfile(data);
+      finalListOfMovies = data;
+      template.showProfile(finalListOfMovies);
     });
 }
 
@@ -178,29 +178,28 @@ function starHoverOff(evt) {
 }
 
 // UPDATE SEEN MOVIES IN PROFILE
-$(document).on('click', '.watchedMovieProfile', updateWatchedMovie);
-
 $(document).on('click', '.userRating', updateRating);
 
 //UPDATE THE RATING GIVEN
 function updateRating (e){
   let movieId = $(e.currentTarget).attr('key');
-  let rating= {"rating": $(e.currentTarget).attr('class').split(' ')[0]};
+  let ratingValue = $(e.currentTarget).attr('class').split(' ')[0];
+  let rating = {"rating": ratingValue};
   db.updateMovie(movieId, rating)
     .then(()=>{
-      console.log("rating?", rating);
+      finalListOfMovies[movieId].rating = ratingValue;
       template.showProfile(finalListOfMovies);
   });
 }
 
-function updateWatchedMovie (e){
-  let movieId = $(e.currentTarget).attr('key');
-  let watched = {"watched": true};
-  db.updateMovie(movieId, watched)
-    .then(()=>{
-      showProfileView();
-    });
-}
+// function updateWatchedMovie (e){
+//   let movieId = $(e.currentTarget).attr('key');
+//   let watched = {"watched": true};
+//   db.updateMovie(movieId, watched)
+//     .then(()=>{
+//       showProfileView();
+//     });
+// }
 
 // function reloadProfile() {
 //   db.getSavedMovies()
