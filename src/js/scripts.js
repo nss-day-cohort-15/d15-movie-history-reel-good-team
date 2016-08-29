@@ -54,6 +54,7 @@ $(document).on('click', '#logoutButton', function() {
 // MOVIE SEARCH FUNCTIONALITY
 $(document).on('keypress','#title',function(evt){
   if (evt.keyCode === 13) {
+    $('.mainBread').html('Search > ');
     finalListOfMovies = {};
     let title = $('#title').val();
     // Call firebase for filtered searh results
@@ -131,6 +132,7 @@ function showProfileView (){
     .then(function(data){
       finalListOfMovies = data;
       template.showProfile(finalListOfMovies);
+      $('.mainBread').html('Home > ');
     });
 }
 
