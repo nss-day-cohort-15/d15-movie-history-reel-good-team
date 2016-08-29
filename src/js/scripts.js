@@ -98,8 +98,7 @@ function starHoverOn(evt) {
   let $hoverStar = $(evt.currentTarget);
   $hoverStar.addClass('current-star hover-star');
   $hoverStar.siblings().addClass('hover-star');
-  $('.current-star ~ i').removeClass('hover-star');
-  $('.current-star ~ i').addClass('black-star');
+  $('.current-star ~ i').removeClass('hover-star').addClass('black-star');
 }
 
 function starHoverOff(evt) {
