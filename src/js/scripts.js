@@ -52,9 +52,7 @@ $(document).on('click', '#logoutButton', function() {
 // MOVIE SEARCH FUNCTIONALITY
 $(document).on('keypress','#title',function(evt){
   if (evt.keyCode === 13) {
-    for (let movie in finalListOfMovies) {
-      delete finalListOfMovies[movie];
-    }
+    finalListOfMovies = {};
     let title = $('#title').val();
     // Call firebase for filtered searh results
     db.getSavedMovies()
@@ -74,7 +72,6 @@ $(document).on('keypress','#title',function(evt){
          $('#title').val("");
          console.log("first call to OMDB", OMDbMovies);
          var numberOfMovies = OMDbIDs.length;
-         console.log(Object.keys(finalListOfMovies).length)
          OMDbIDs.forEach(function(id, index){
            for (let movieOption in fbData) {
             // Compare OMDb and Firebase results
@@ -90,11 +87,11 @@ $(document).on('keypress','#title',function(evt){
            db.getMovieByID(ids)
            .then(function(data) {
              finalListOfMovies[index] = data;
-             // i++;
-             // if (i === (numberOfMovies - 1)){
+             i++;
+             if (i === (numberOfMovies - 1)){
           // Print only unique results, with Firebase results taking priority
               template.showProfile(finalListOfMovies);
-             // }
+             }
            })
          })
       })
