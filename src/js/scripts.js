@@ -15,7 +15,7 @@ var finalListOfMovies = {};
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
     showBtn ('logoutButton', 'loginButton');
-    // showProfileView();
+    showProfileView();
   } else {
     showBtn ('loginButton', 'logoutButton');
   }
@@ -33,7 +33,7 @@ $(document).on('click', '#loginButton', function() {
   .then(function(){
     console.log("welcome!");
     showBtn ('logoutButton', 'loginButton');
-    // showProfileView();
+    showProfileView();
   });
 });
 
@@ -52,6 +52,9 @@ $(document).on('click', '#logoutButton', function() {
 // MOVIE SEARCH FUNCTIONALITY
 $(document).on('keypress','#title',function(evt){
   if (evt.keyCode === 13) {
+    for (let movie in finalListOfMovies) {
+      delete finalListOfMovies[movie];
+    }
     let title = $('#title').val();
     // Call firebase for filtered searh results
     db.getSavedMovies()
@@ -62,6 +65,7 @@ $(document).on('keypress','#title',function(evt){
        db.searchOMDB(title)
        .then(function(data){
          OMDbMovies = data;
+         OMDbIDs = [];
       // Create array of IMDb IDs
          OMDbMovies.Search.forEach(function(movie) {
            OMDbIDs.push(movie.imdbID)
@@ -70,7 +74,6 @@ $(document).on('keypress','#title',function(evt){
          $('#title').val("");
          console.log("first call to OMDB", OMDbMovies);
          var numberOfMovies = OMDbIDs.length;
-         finalListOfMovies = {};
          console.log(Object.keys(finalListOfMovies).length)
          OMDbIDs.forEach(function(id, index){
            for (let movieOption in fbData) {
@@ -81,17 +84,17 @@ $(document).on('keypress','#title',function(evt){
              }
            }
          });
-         let i =0;
+         let i = 0;
       // Call OMDb with IMDb IDs for actors
          OMDbIDs.forEach(function(ids, index) {
            db.getMovieByID(ids)
            .then(function(data) {
              finalListOfMovies[index] = data;
-             i++;
-             if (i === (numberOfMovies-1)){
+             // i++;
+             // if (i === (numberOfMovies - 1)){
           // Print only unique results, with Firebase results taking priority
               template.showProfile(finalListOfMovies);
-             }
+             // }
            })
          })
       })

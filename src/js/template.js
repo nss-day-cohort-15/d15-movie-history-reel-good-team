@@ -21,6 +21,7 @@ function showFindMovie (){
 }
 
 function showProfile(data) {
+  console.log(data);
   $('.display').html(showSavedMovies(data));
 }
 
