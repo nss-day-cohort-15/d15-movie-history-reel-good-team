@@ -142,23 +142,35 @@ $(document).on('click','.delete-btn',function(evt){
 });
 
 // SHOW UNWATCHED OR WATCHED FILMS WITHIN PROFILE
-$(document).on('click', '.showWatched', function() {
+$(document).on('click', '.showWatched', function(evt) {
+  let $activeFilter = $(evt.currentTarget);
+  $activeFilter.siblings().removeClass('active-button');
+  $activeFilter.addClass('active-button');
   $('.movieCard').hide();
   $('.movieCard[saved=true]').show();
   $('.movieCard[rating=0]').hide();
 });
 
-$(document).on('click', '.showUnwatched', function() {
+$(document).on('click', '.showUnwatched', function(evt) {
+  let $activeFilter = $(evt.currentTarget);
+  $activeFilter.siblings().removeClass('active-button');
+  $activeFilter.addClass('active-button');
   $('.movieCard').hide();
   $('.movieCard[rating=0]').show();
 });
 
-$(document).on('click', '.showFavorites', function() {
+$(document).on('click', '.showFavorites', function(evt) {
+  let $activeFilter = $(evt.currentTarget);
+  $activeFilter.siblings().removeClass('active-button');
+  $activeFilter.addClass('active-button');
   $('.movieCard').hide();
   $('.movieCard[rating=10]').show();
 });
 
-$(document).on('click', '.showUntracked', function() {
+$(document).on('click', '.showUntracked', function(evt) {
+  let $activeFilter = $(evt.currentTarget);
+  $activeFilter.siblings().removeClass('active-button');
+  $activeFilter.addClass('active-button');
   $('.movieCard').show();
   $('.movieCard[saved=true]').hide();
 });
