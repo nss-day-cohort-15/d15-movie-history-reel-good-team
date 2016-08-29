@@ -1,9 +1,10 @@
 
 <div class="row center-align">
   <h1> Watchlist </h1>
-  <a class="waves-effect waves-grey btn-flat showWatched">Show Watched</a>
+  <a class="waves-effect waves-grey btn-flat showUntracked">Show Untracked</a>
   <a class="waves-effect waves-grey btn-flat showUnwatched">Show Unwatched</a>
-  <a class="waves-effect waves-grey btn-flat showAll">Show All Movies</a>
+  <a class="waves-effect waves-grey btn-flat showWatched">Show Watched</a>
+  <a class="waves-effect waves-grey btn-flat showFavorites">Favorites</a>
 </div>
 <div class="row">
 {{#each this}}
@@ -17,19 +18,20 @@
   <img src="{{Poster}}" alt="{{Title}} Image" class="movieImg">
   <p> Released in {{Year}} </p>
   <p> {{Actors}} </p>
-  {{#if watched}}
   <span class="rating"> Rate
-    <i key="{{@key}}" id="1-{{@key}}" class="1 material-icons userRating">star</i>
-    <i key="{{@key}}" id="2-{{@key}}" class="2 material-icons userRating">star</i>
-    <i key="{{@key}}" id="3-{{@key}}" class="3 material-icons userRating">star</i>
-    <i key="{{@key}}" id="4-{{@key}}" class="4 material-icons userRating">star</i>
-    <i key="{{@key}}" id="5-{{@key}}" class="5 material-icons userRating">star</i>
+    <i key="{{@key}}" class="material-icons userRating {{activateStars rating 1}}">star</i>
+    <i key="{{@key}}" class="material-icons userRating {{activateStars rating 2}}">star</i>
+    <i key="{{@key}}" class="material-icons userRating {{activateStars rating 3}}">star</i>
+    <i key="{{@key}}" class="material-icons userRating {{activateStars rating 4}}">star</i>
+    <i key="{{@key}}" class="material-icons userRating {{activateStars rating 5}}">star</i>
+    <i key="{{@key}}" class="material-icons userRating {{activateStars rating 6}}">star</i>
+    <i key="{{@key}}" class="material-icons userRating {{activateStars rating 7}}">star</i>
+    <i key="{{@key}}" class="material-icons userRating {{activateStars rating 8}}">star</i>
+    <i key="{{@key}}" class="material-icons userRating {{activateStars rating 9}}">star</i>
+    <i key="{{@key}}" class="material-icons userRating {{activateStars rating 10}}">star</i>
   </span>
   {{#if rating}}
   <span> You've rated this movie {{rating}} stars.</span>
-  {{/if}}
-  {{else}}
-  <button type="button" class="watchedMovieProfile" key="{{@key}}"> Seen It! </button>
   {{/if}}
 
 </div>
