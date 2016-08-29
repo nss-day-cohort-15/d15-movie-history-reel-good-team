@@ -4,8 +4,8 @@ $(document).on('click', '.showUntracked', function(evt) {
   $activeFilter.siblings().removeClass('active-button');
   $activeFilter.addClass('active-button');
   $('.secondBread').html('Untracked');
-  $('.movieCard').show();
-  $('.movieCard[saved=true]').hide();
+  $('.movieDiv').show();
+  $('.movieCard[saved=true]').parent('.movieDiv').hide();
 });
 
 $(document).on('click', '.showUnwatched', function(evt) {
@@ -13,8 +13,8 @@ $(document).on('click', '.showUnwatched', function(evt) {
   $activeFilter.siblings().removeClass('active-button');
   $activeFilter.addClass('active-button');
   $('.secondBread').html('Unwatched');
-  $('.movieCard').hide();
-  $('.movieCard[rating=0]').show();
+  $('.movieDiv').hide();
+  $('.movieCard[rating=0]').parent('.movieDiv').show();
 });
 
 $(document).on('click', '.showWatched', function(evt) {
@@ -22,9 +22,9 @@ $(document).on('click', '.showWatched', function(evt) {
   $activeFilter.siblings().removeClass('active-button');
   $activeFilter.addClass('active-button');
   $('.secondBread').html('Watched')
-  $('.movieCard').hide();
-  $('.movieCard[saved=true]').show();
-  $('.movieCard[rating=0]').hide();
+  $('.movieDiv').hide();
+  $('.movieCard[saved=true]').parent('.movieDiv').show();
+  $('.movieCard[rating=0]').parent('.movieDiv').hide();
 });
 
 $(document).on('click', '.showFavorites', function(evt) {
@@ -32,6 +32,6 @@ $(document).on('click', '.showFavorites', function(evt) {
   $activeFilter.siblings().removeClass('active-button');
   $activeFilter.addClass('active-button');
   $('.secondBread').html('Favorites')
-  $('.movieCard').hide();
-  $('.movieCard[rating=10]').show();
+  $('.movieDiv').hide();
+  $('.movieCard[rating=10]').parent('.movieDiv').show();
 });
