@@ -17,6 +17,23 @@ function searchOMDB(title) {
   });
 }
 
+// GET Movie By ID
+function getMovieByID(id) {
+  return new Promise(function(resolve,reject){
+    $.ajax({
+      url: `http://www.omdbapi.com/?type=movie&i=${id}`,
+      method: 'GET'
+    }).done(function(data){
+      console.log(data);
+      resolve(data);
+    }).fail(function(error){
+      reject(error);
+    });
+  });
+}
+
+
+
 // Unique Movie Search
 
 
@@ -58,4 +75,4 @@ function updateMovie (movieId, property){
 }
 
 
-module.exports = {searchOMDB, saveMovie, getSavedMovies, deleteMovie, updateMovie};
+module.exports = {searchOMDB, saveMovie, getSavedMovies, deleteMovie, updateMovie, getMovieByID};

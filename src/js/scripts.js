@@ -8,7 +8,6 @@ let auth = require('./auth'),
 let OMDbMovies,
 fbData= {},
 OMDbIDs = [],
-fbFilteredMovies = {},
 finalListOfMovies= {};
 
 //IS A USER LOGGED IN?
@@ -71,13 +70,21 @@ $(document).on('keypress','#title',function(evt){
            $('#title').val("");
            console.log("first call to OMDB", OMDbMovies);
            OMDbIDs.forEach(function(id, index){
-             for (var movieOption in fbData) {
-               console.log("fbData", fbData)
-               console.dir("movieOption",fbData[movieOption]);
-               if (movieOption.imdbID === id ) {
+             for (let movieOption in fbData) {
+               if (fbData[movieOption].imdbID === id ) {
                  OMDbIDs.splice(index, 1);
+                 console.log('Match Found', id)
+                 finalListOfMovies[movieOption] = fbData[movieOption]
+                 console.log(finalListOfMovies);
                }
              }
+           })
+           OMDbIDs.forEach(function(ids, index) {
+             db.getMovieByID(ids)
+             .then(function(data) {
+               finalListOfMovies[index] = data;
+               console.log(finalListOfMovies)
+             })
            })
            console.log(OMDbIDs)
       })
