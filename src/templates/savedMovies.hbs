@@ -9,16 +9,17 @@
 </div>
 <div class="row">
 {{#each this}}
-<div class="col s6">
+<div class="col m4 col s6">
   <div class="z-depth-1 movieCard center-align">
   <div class="chip right-align delete-btn" key="{{@key}}">
     Delete
     <i class="close material-icons">close</i>
   </div>
-  <h3 class="title"> {{Title}} </h3>
+  <h4 class="title"> {{Title}} </h4>
   <img src="{{Poster}}" alt="{{Title}} Image" class="movieImg">
   <p> Released in {{Year}} </p>
   <p> {{Actors}} </p>
+  {{#if saved}}
   <span class="rating"> Rate
     <i key="{{@key}}" class="material-icons userRating {{activateStars rating 1}}">star</i>
     <i key="{{@key}}" class="material-icons userRating {{activateStars rating 2}}">star</i>
@@ -31,10 +32,12 @@
     <i key="{{@key}}" class="material-icons userRating {{activateStars rating 9}}">star</i>
     <i key="{{@key}}" class="material-icons userRating {{activateStars rating 10}}">star</i>
   </span>
+  {{else}}
+    <button type="button" class="addMovie" key="{{@key}}"> Add to Watchlist </button>
+  {{/if}}
   {{#if rating}}
   <span> You've rated this movie {{rating}} stars.</span>
   {{/if}}
-
 </div>
 </div>
 {{/each}}

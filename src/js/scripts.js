@@ -56,43 +56,44 @@ $(document).on('keypress','#title',function(evt){
     let title = $('#title').val();
     // Call firebase for filtered searh results
     db.getSavedMovies()
-      .then((data)=>{
-        // Create array of IMDb IDs
-         fbData = data;
-         console.log("first call to firebase", fbData)
-         db.searchOMDB(title)
-         .then(function(data){
-           OMDbMovies = data;
-           OMDbMovies.Search.forEach(function(movie) {
-             OMDbIDs.push(movie.imdbID)
-           })
-           console.log(OMDbIDs);
-           $('#title').val("");
-           console.log("first call to OMDB", OMDbMovies);
-           OMDbIDs.forEach(function(id, index){
-             for (let movieOption in fbData) {
-               if (fbData[movieOption].imdbID === id ) {
-                 OMDbIDs.splice(index, 1);
-                 console.log('Match Found', id)
-                 finalListOfMovies[movieOption] = fbData[movieOption]
-                 console.log(finalListOfMovies);
-               }
+    .then((data)=>{
+       fbData = data;
+       console.log("first call to firebase", fbData)
+    // Call OMDb for similar search results on title
+       db.searchOMDB(title)
+       .then(function(data){
+         OMDbMovies = data;
+      // Create array of IMDb IDs
+         OMDbMovies.Search.forEach(function(movie) {
+           OMDbIDs.push(movie.imdbID)
+         })
+         console.log(OMDbIDs);
+         $('#title').val("");
+         console.log("first call to OMDB", OMDbMovies);
+         var numberOfMovies = OMDbIDs.length;
+         OMDbIDs.forEach(function(id, index){
+           for (let movieOption in fbData) {
+            // Compare OMDb and Firebase results
+             if (fbData[movieOption].imdbID === id ) {
+               OMDbIDs.splice(index, 1);
+               finalListOfMovies[movieOption] = fbData[movieOption]
+             }
+           }
+         });
+         let i =0;
+      // Call OMDb with IMDb IDs for actors
+         OMDbIDs.forEach(function(ids, index) {
+           db.getMovieByID(ids)
+           .then(function(data) {
+             finalListOfMovies[index] = data;
+             i++;
+             if (i === (numberOfMovies-1)){
+          // Print only unique results, with Firebase results taking priority
+              template.showProfile(finalListOfMovies);
              }
            })
-           OMDbIDs.forEach(function(ids, index) {
-             db.getMovieByID(ids)
-             .then(function(data) {
-               finalListOfMovies[index] = data;
-               console.log(finalListOfMovies)
-             })
-           })
-           console.log(OMDbIDs)
+         })
       })
-      // Call OMDb for similar search results on title
-    // Compare OMDb and Firebase results
-
-    // Call OMDb with IMDb IDs for actors
-    // Print only unique results, with Firebase results taking priority
     });
   }
 });
@@ -104,22 +105,24 @@ function showFindMovies() {
 }
 
 // SAVE MOVIE FUNCTIONALITY
-$(document).on('click', ".addMovie", function() {
-    saveMovie(false);
-});
-$(document).on('click', ".watchedMovie", function() {
-    saveMovie(true);
+$(document).on('click', ".addMovie", function(evt) {
+    saveMovie(evt, false);
 });
 
-// function saveMovie(bool) {
-//     OMDbMovies.watched = bool;
-//     OMDbMovies.rating = 0;
-//     db.saveMovie(OMDbMovies)
-//         .then(function(data) {
-//             console.log(data);
-//             $('.content').html("");
-//         });
-// }
+function saveMovie(evt, bool) {
+  let key = $(evt.currentTarget).attr("key");
+  finalListOfMovies[key].watched = bool;
+  finalListOfMovies[key].rating = 0;
+  finalListOfMovies[key].saved = true;
+  db.saveMovie(finalListOfMovies[key])
+  .then(function(data) {
+    console.log("data", data.path.o[2]);
+    finalListOfMovies[data.path.o[2]] = finalListOfMovies[key];
+    delete finalListOfMovies[key];
+    console.log("final list with correct key?", finalListOfMovies);
+    template.showProfile(finalListOfMovies);
+  });
+}
 
 // PROFILE FUNCTIONALITY
 $(document).on('click','.profile', showProfileView);
