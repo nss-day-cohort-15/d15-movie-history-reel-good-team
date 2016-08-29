@@ -143,17 +143,24 @@ $(document).on('click','.delete-btn',function(evt){
 
 // SHOW UNWATCHED OR WATCHED FILMS WITHIN PROFILE
 $(document).on('click', '.showWatched', function() {
-    $('.movieCard').css('display', 'inline-block');
-    $('.watchedMovieProfile').parent().css('display', 'none');
+  $('.movieCard').hide();
+  $('.movieCard[saved=true]').show();
+  $('.movieCard[rating=0]').hide();
 });
 
 $(document).on('click', '.showUnwatched', function() {
-    $('.movieCard').css('display', 'inline-block');
-    $('.rating').parent().css('display', 'none');
+  $('.movieCard').hide();
+  $('.movieCard[rating=0]').show();
 });
 
-$(document).on('click', '.showAll', function() {
-    $('.movieCard').css('display', 'inline-block');
+$(document).on('click', '.showFavorites', function() {
+  $('.movieCard').hide();
+  $('.movieCard[rating=10]').show();
+});
+
+$(document).on('click', '.showUntracked', function() {
+  $('.movieCard').show();
+  $('.movieCard[saved=true]').hide();
 });
 
 // STAR HOVER FUNCTIONALITY
