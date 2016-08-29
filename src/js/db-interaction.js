@@ -6,7 +6,7 @@ function searchOMDB(title) {
   title = title.replace(' ','+');
   return new Promise(function(resolve,reject){
     $.ajax({
-      url: `http://www.omdbapi.com/?type=movie&tomatoes=true&t=${title}`,
+      url: `http://www.omdbapi.com/?type=movie&s=${title}`,
       method: 'GET'
     }).done(function(data){
       console.log(data);
@@ -16,6 +16,9 @@ function searchOMDB(title) {
     });
   });
 }
+
+// Unique Movie Search
+
 
 function saveMovie(currentMovie) {
   let userId = firebase.auth().currentUser.uid;

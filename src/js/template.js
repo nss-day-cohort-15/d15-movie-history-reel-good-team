@@ -6,7 +6,7 @@ let searchMovies = require('./../templates/findMovies.hbs'),
 
 Handlebars.registerPartial('searchResults', require('./../templates/partials/searchResults.hbs'));
 
-Handlebars.registerHelper('activateStars',function(rating, index, options){
+Handlebars.registerHelper('activateStars',function(rating, index){
   if (rating >= index) {
     return 'active-star';
   }

@@ -5,14 +5,17 @@ let auth = require('./auth'),
     template = require('./template.js'),
     firebase = require("firebase/app");
 
-let currentMovie;
+let OMDbMovies,
+fbData= {},
+OMDbIDs = [],
+fbFilteredMovies = {},
+finalListOfMovies= {};
 
 //IS A USER LOGGED IN?
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
     showBtn ('logoutButton', 'loginButton');
-    $('.findMovies').removeClass("hidden");
-    $('.profile').removeClass("hidden");
+    showProfileView();
   } else {
     showBtn ('loginButton', 'logoutButton');
   }
@@ -52,11 +55,37 @@ $(document).on('click', '#logoutButton', function() {
 $(document).on('keypress','#title',function(evt){
   if (evt.keyCode === 13) {
     let title = $('#title').val();
-    db.searchOMDB(title)
-      .then(function(data){
-        currentMovie = data;
-        $('#title').val("");
-        template.showSearchResults(data);
+    // Call firebase for filtered searh results
+    db.getSavedMovies()
+      .then((data)=>{
+        // Create array of IMDb IDs
+         fbData = data;
+         console.log("first call to firebase", fbData)
+         db.searchOMDB(title)
+         .then(function(data){
+           OMDbMovies = data;
+           OMDbMovies.Search.forEach(function(movie) {
+             OMDbIDs.push(movie.imdbID)
+           })
+           console.log(OMDbIDs);
+           $('#title').val("");
+           console.log("first call to OMDB", OMDbMovies);
+           OMDbIDs.forEach(function(id, index){
+             for (var movieOption in fbData) {
+               console.log("fbData", fbData)
+               console.dir("movieOption",fbData[movieOption]);
+               if (movieOption.imdbID === id ) {
+                 OMDbIDs.splice(index, 1);
+               }
+             }
+           })
+           console.log(OMDbIDs)
+      })
+      // Call OMDb for similar search results on title
+    // Compare OMDb and Firebase results
+
+    // Call OMDb with IMDb IDs for actors
+    // Print only unique results, with Firebase results taking priority
     });
   }
 });
@@ -75,20 +104,19 @@ $(document).on('click', ".watchedMovie", function() {
     saveMovie(true);
 });
 
-function saveMovie(bool) {
-    currentMovie.watched = bool;
-    currentMovie.rating = 0;
-    db.saveMovie(currentMovie)
-        .then(function(data) {
-            console.log(data);
-            $('.content').html("");
-        });
-}
+// function saveMovie(bool) {
+//     OMDbMovies.watched = bool;
+//     OMDbMovies.rating = 0;
+//     db.saveMovie(OMDbMovies)
+//         .then(function(data) {
+//             console.log(data);
+//             $('.content').html("");
+//         });
+// }
 
 // PROFILE FUNCTIONALITY
 $(document).on('click','.profile', showProfileView);
 
-<<<<<<< HEAD
 function showProfileView (){
   db.getSavedMovies()
     .then(function(data){
@@ -143,7 +171,7 @@ function starHoverOff(evt) {
 
 // UPDATE SEEN MOVIES IN PROFILE
 $(document).on('click', '.watchedMovieProfile', updateWatchedMovie);
-<<<<<<< HEAD
+
 $(document).on('keypress', '.userRating', updateRating);
 
 function updateWatchedMovie (e){
