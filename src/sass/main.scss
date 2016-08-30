@@ -1,11 +1,11 @@
-
-
-body {
-  background-color: azure;
-}
+// body {
+//   background-color: azure;
+// }
 
 .movieImg {
-  max-width: 100%;
+  display: block;
+  margin: 0 auto;
+  max-width: 90%;
 }
 
 .hidden {
@@ -13,7 +13,7 @@ body {
 }
 
 .movieCard {
-  height: 700px;
+  height: 550px;
   overflow: auto;
   margin: 5px;
   // padding: 15px;
@@ -32,7 +32,7 @@ body {
 }
 
 .active-button {
-  background-color: #eeeeee;
+  background-color: #bbb;
 }
 
 i {
@@ -51,11 +51,22 @@ i {
 
 .landingPage {
   margin-left: 3em;
-  margin-top: 10em;
+  margin-top: 8em;
 }
 
 .chip {
-  // position: relative;
-  margin-left: 10rem;
-  margin-top: .5rem;
+  margin-left: 40%;
+  margin-top: 15px;
 }
+
+#loginButton,
+#logoutButton {
+  color: black;
+}
+
+// nav {
+//   position: fixed;
+// // }
+// .filters {
+//   margin-top: 25px;
+// }

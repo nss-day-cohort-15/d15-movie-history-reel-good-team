@@ -1,3 +1,5 @@
+"use strict";
+
 // STAR HOVER FUNCTIONALITY
 
 $(document).on({

@@ -9,7 +9,8 @@ let auth = require('./auth'),
 
 let OMDbMovies,
 fbData= {},
-OMDbIDs = [];
+OMDbIDs = [],
+numberOfMovies;
 
 var finalListOfMovies = {};
 
@@ -29,12 +30,37 @@ function showBtn (id1, id2){
   $(`#${id2}`).addClass('hidden');
 }
 
+//Determine the number of movies in a user's watchlist
+//to determine whether buttons need to be disabled
+function checkNumberOfMovies (){
+  db.getSavedMovies()
+  .then((data)=>{
+    if (data === null){
+      disableButtons();
+    } else {
+      enableButtons();
+    }
+  })
+}
+
+function disableButtons(){
+  $('.showUnwatched').addClass('disabled').removeClass('waves-effect').attr('disabled');
+  $('.showWatched').addClass('disabled').removeClass('waves-effect').attr('disabled');
+  $('.showFavorites').addClass('disabled').removeClass('waves-effect').attr('disabled');
+}
+
+function enableButtons(){
+  $('.showUnwatched').removeClass('disabled').addClass('waves-effect').removeAttr('disabled');
+  $('.showWatched').removeClass('disabled').addClass('waves-effect').removeAttr('disabled');
+  $('.showFavorites').removeClass('disabled').addClass('waves-effect').removeAttr('disabled');
+}
+
 // LOGIN BUTTON FUNCTIONALITY
 $(document).on('click', '#loginButton', function() {
   auth.loginWithGoogle()
   .then(function(){
-    console.log("welcome!");
     showBtn ('logoutButton', 'loginButton');
+    checkNumberOfMovies();
     showProfileView();
   });
 });
@@ -43,11 +69,10 @@ $(document).on('click', '#loginButton', function() {
 $(document).on('click', '#logoutButton', function() {
   auth.logoutWithGoogle()
   .then(function(){
-    console.log("goodbye");
     showBtn ('loginButton', 'logoutButton');
-    $('.findMovies').addClass("hidden");
-    $('.profile').addClass("hidden");
+    $('.mainBread').html('');
     $('.display').html("");
+    disableButtons();
   });
 });
 
@@ -67,15 +92,14 @@ $(document).on('keypress','#title',function(evt){
        db.searchOMDB(title)
        .then(function(data){
          OMDbMovies = data;
+         console.log("OMDBMOVIES", OMDbMovies);
          OMDbIDs = [];
       // Create array of IMDb IDs
          OMDbMovies.Search.forEach(function(movie) {
            OMDbIDs.push(movie.imdbID)
-         })
-         console.log(OMDbIDs);
+         });
          $('#title').val("");
          console.log("first call to OMDB", OMDbMovies);
-         var numberOfMovies = OMDbIDs.length;
          OMDbIDs.forEach(function(id, index){
            for (let movieOption in fbData) {
             // Compare OMDb and Firebase results
@@ -86,6 +110,7 @@ $(document).on('keypress','#title',function(evt){
            }
          });
          let i = 0;
+         var numberOfMovies = OMDbIDs.length;
       // Call OMDb with IMDb IDs for actors
          OMDbIDs.forEach(function(ids, index) {
            db.getMovieByID(ids)
@@ -94,20 +119,20 @@ $(document).on('keypress','#title',function(evt){
              i++;
              if (i === (numberOfMovies - 1)){
           // Print only unique results, with Firebase results taking priority
+              console.log("final list of MOvies", finalListOfMovies);
               template.showProfile(finalListOfMovies);
+              if (firebase.auth().currentUser === null){
+                disableButtons();
+              } else {
+                checkNumberOfMovies();
+              }
              }
-           })
-         })
-      })
+           });
+         });
+      });
     });
   }
 });
-
-$(document).on('click', '.findMovies', showFindMovies);
-
-function showFindMovies() {
-    template.showFindMovie();
-}
 
 // SAVE MOVIE FUNCTIONALITY
 $(document).on('click', ".addMovie", function(evt) {
@@ -124,6 +149,7 @@ function saveMovie(evt, bool) {
     finalListOfMovies[data.path.o[2]] = finalListOfMovies[key];
     delete finalListOfMovies[key];
     template.showProfile(finalListOfMovies);
+    enableButtons();
   });
 }
 
@@ -134,6 +160,7 @@ function showProfileView (){
       finalListOfMovies = data;
       template.showProfile(finalListOfMovies);
       $('.mainBread').html('Home > ');
+      checkNumberOfMovies();
     });
 }
 
@@ -144,8 +171,10 @@ $(document).on('click','.delete-btn',function(evt){
     .then(function(){
       delete finalListOfMovies[key];
       template.showProfile(finalListOfMovies);
+      checkNumberOfMovies();
     });
 });
+
 
 // UPDATE MOVIE RATINGS
 $(document).on('click', '.userRating', updateRating);
@@ -158,6 +187,65 @@ function updateRating (e){
     .then(()=>{
       finalListOfMovies[movieId].rating = ratingValue;
       template.showProfile(finalListOfMovies);
+      enableButtons();
   });
 }
+
+//Button functionality
+// $(document).on('click', '.showUntracked', function(evt) {
+//   $('.filter').removeClass('cyan lighten-4');
+//   let $activeFilter = $(evt.currentTarget);
+//   $activeFilter.siblings().removeClass('active-button');
+//   $activeFilter.addClass('cyan lighten-4');
+//   $('.secondBread').html('Untracked');
+//   $('.movieDiv').show();
+//   $('.movieCard[saved=true]').parent('.movieDiv').hide();
+// });
+
+// $(document).on('click', '.showUnwatched', function(evt) {
+//   db.getSavedMovies()
+//   .then(function(data){
+//     template.showProfile(data);
+//     checkNumberOfMovies();
+//     $('.filter').removeClass('cyan lighten-4');
+//     let $activeFilter = $(evt.currentTarget);
+//     $activeFilter.siblings().removeClass('active-button');
+//     $('.secondBread').html('Unwatched');
+//     $('.movieDiv').hide();
+//     $('.movieCard[rating=0]').parent('.movieDiv').show();
+//   });
+//     $activeFilter.addClass('cyan lighten-4');
+// });
+
+// $(document).on('click', '.showWatched', function(evt) {
+//    db.getSavedMovies()
+//   .then(function(data){
+//     template.showProfile(data);
+//     checkNumberOfMovies();
+//     $('.filter').removeClass('cyan lighten-4');
+//     let $activeFilter = $(evt.currentTarget);
+//     $activeFilter.siblings().removeClass('active-button');
+//     $('.secondBread').html('Watched')
+//     $('.movieDiv').hide();
+//     $('.movieCard[saved=true]').parent('.movieDiv').show();
+//     $('.movieCard[rating=0]').parent('.movieDiv').hide();
+//   });
+//     $activeFilter.addClass('cyan lighten-4');
+// });
+
+// $(document).on('click', '.showFavorites', function(evt) {
+//    db.getSavedMovies()
+//   .then(function(data){
+//     template.showProfile(data);
+//     checkNumberOfMovies();
+//     $('.filter').removeClass('cyan lighten-4');
+//     let $activeFilter = $(evt.currentTarget);
+//     $activeFilter.siblings().removeClass('active-button');
+//     $('.secondBread').html('Favorites')
+//     $('.movieDiv').hide();
+//     $('.movieCard[rating=10]').parent('.movieDiv').show();
+//   });
+//     $activeFilter.addClass('cyan lighten-4');
+// });
+
 

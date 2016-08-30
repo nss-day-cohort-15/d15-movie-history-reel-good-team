@@ -1,9 +1,11 @@
 
-<div class="row">
-  <a class="waves-effect waves-grey btn-flat showUntracked">Show Untracked</a>
-  <a class="waves-effect waves-grey btn-flat showUnwatched">Show Unwatched</a>
-  <a class="waves-effect waves-grey btn-flat showWatched">Show Watched</a>
-  <a class="waves-effect waves-grey btn-flat showFavorites">Favorites</a>
+<div class="row filters">
+  <h3> <span class="breadCrumb"></span></h3>
+  <button class="filter waves-effect btn-flat showUntracked" type="button">Show Untracked</button>
+  <button class="filter btn-flat showUnwatched disabled" type="button" disabled>Show Unwatched</button>
+  <button class="filter btn-flat showWatched disabled" type="button" disabled>Show Watched</button>
+  <button class="filter btn-flat showFavorites disabled" type="button" disabled>Favorites</button>
+
 </div>
 <div class="row">
 
@@ -24,7 +26,6 @@
           Remember that 10 stars makes your movie a favorite!
         </li>
       </ol>
-
   </div>
 {{/unless}}
 {{#each this}}
@@ -32,8 +33,7 @@
   {{#if saved}}
   <div class="z-depth-1 movieCard center-align" rating="{{rating}}" saved="{{saved}}">
   <div class="chip right-align delete-btn" key="{{@key}}">
-    Delete
-    <i class="close material-icons">close</i>
+    Delete <i class="close material-icons">close</i>
   </div>
   {{else}}
   <div class="z-depth-1 movieCard center-align">
