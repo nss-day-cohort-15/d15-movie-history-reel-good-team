@@ -44,17 +44,16 @@ function checkNumberOfMovies (){
 }
 
 function disableButtons(){
-  $('.showUnwatched').addClass('disabled').removeClass('waves-effect waves-teal');
-  $('.showWatched').addClass('disabled').removeClass('waves-effect waves-teal');
-  $('.showFavorites').addClass('disabled').removeClass('waves-effect waves-teal');
+  $('.showUnwatched').addClass('disabled').removeClass('waves-effect waves-teal').attr('disabled');
+  $('.showWatched').addClass('disabled').removeClass('waves-effect waves-teal').attr('disabled');
+  $('.showFavorites').addClass('disabled').removeClass('waves-effect waves-teal').attr('disabled');
 }
 
 function enableButtons(){
-  $('.showUnwatched').removeClass('disabled').addClass('waves-effect waves-teal');
-  $('.showWatched').removeClass('disabled').addClass('waves-effect waves-teal');
-  $('.showFavorites').removeClass('disabled').addClass('waves-effect waves-teal');
+  $('.showUnwatched').removeClass('disabled').addClass('waves-effect waves-teal').removeAttr('disabled');
+  $('.showWatched').removeClass('disabled').addClass('waves-effect waves-teal').removeAttr('disabled');
+  $('.showFavorites').removeClass('disabled').addClass('waves-effect waves-teal').removeAttr('disabled');
 }
-
 
 // LOGIN BUTTON FUNCTIONALITY
 $(document).on('click', '#loginButton', function() {
@@ -71,10 +70,8 @@ $(document).on('click', '#loginButton', function() {
 $(document).on('click', '#logoutButton', function() {
   auth.logoutWithGoogle()
   .then(function(){
-    console.log("goodbye");
     showBtn ('loginButton', 'logoutButton');
-    $('.findMovies').addClass("hidden");
-    $('.profile').addClass("hidden");
+    $('.mainBread').html('');
     $('.display').html("");
   });
 });
@@ -95,12 +92,12 @@ $(document).on('keypress','#title',function(evt){
        db.searchOMDB(title)
        .then(function(data){
          OMDbMovies = data;
+         console.log("OMDBMOVIES", OMDbMovies);
          OMDbIDs = [];
       // Create array of IMDb IDs
          OMDbMovies.Search.forEach(function(movie) {
            OMDbIDs.push(movie.imdbID)
-         })
-         console.log(OMDbIDs);
+         });
          $('#title').val("");
          console.log("first call to OMDB", OMDbMovies);
          var numberOfMovies = OMDbIDs.length;
@@ -122,12 +119,13 @@ $(document).on('keypress','#title',function(evt){
              i++;
              if (i === (numberOfMovies - 1)){
           // Print only unique results, with Firebase results taking priority
+              console.log("final list of MOvies", finalListOfMovies);
               template.showProfile(finalListOfMovies);
               checkNumberOfMovies();
              }
-           })
-         })
-      })
+           });
+         });
+      });
     });
   }
 });
@@ -146,8 +144,8 @@ function saveMovie(evt, bool) {
   .then(function(data) {
     finalListOfMovies[data.path.o[2]] = finalListOfMovies[key];
     delete finalListOfMovies[key];
-    enableButtons();
     template.showProfile(finalListOfMovies);
+    enableButtons();
   });
 }
 
@@ -158,6 +156,7 @@ function showProfileView (){
       finalListOfMovies = data;
       template.showProfile(finalListOfMovies);
       $('.mainBread').html('Home > ');
+      checkNumberOfMovies();
     });
 }
 
@@ -172,46 +171,8 @@ $(document).on('click','.delete-btn',function(evt){
     });
 });
 
-<<<<<<< HEAD
-// SHOW UNWATCHED OR WATCHED FILMS WITHIN PROFILE
-$(document).on('click', '.showWatched', function() {
-    $('.movieCard').css('display', 'inline-block');
-    $('.watchedMovieProfile').parent().css('display', 'none');
-});
 
-$(document).on('click', '.showUnwatched', function() {
-    $('.movieCard').css('display', 'inline-block');
-    $('.rating').parent().css('display', 'none');
-});
-
-$(document).on('click', '.showAll', function() {
-    $('.movieCard').css('display', 'inline-block');
-});
-
-// STAR HOVER FUNCTIONALITY
-$(document).on({
-  mouseenter: starHoverOn,
-  mouseleave: starHoverOff
-},'i');
-
-function starHoverOn(evt) {
-  let $hoverStar = $(evt.currentTarget);
-  $hoverStar.addClass('current-star hover-star');
-  $hoverStar.siblings().addClass('hover-star');
-  $('.current-star ~ i').removeClass('hover-star').addClass('black-star');
-}
-
-function starHoverOff(evt) {
-  let $hoverStar = $(evt.currentTarget);
-  $hoverStar.removeClass('current-star hover-star');
-  $hoverStar.siblings().removeClass('hover-star');
-  $hoverStar.siblings().removeClass('black-star');
-}
-
-// UPDATE SEEN MOVIES IN PROFILE
-=======
 // UPDATE MOVIE RATINGS
->>>>>>> master
 $(document).on('click', '.userRating', updateRating);
 
 function updateRating (e){
@@ -222,5 +183,6 @@ function updateRating (e){
     .then(()=>{
       finalListOfMovies[movieId].rating = ratingValue;
       template.showProfile(finalListOfMovies);
+      enableButtons();
   });
 }

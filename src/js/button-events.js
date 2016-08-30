@@ -1,3 +1,4 @@
+"use strict";
 // SHOW UNWATCHED OR WATCHED FILMS WITHIN PROFILE
 $(document).on('click', '.showUntracked', function(evt) {
   let $activeFilter = $(evt.currentTarget);
