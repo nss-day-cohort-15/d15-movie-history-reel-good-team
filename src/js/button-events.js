@@ -40,3 +40,4 @@ $(document).on('click', '.showFavorites', function(evt) {
   $('.movieDiv').hide();
   $('.movieCard[rating=10]').parent('.movieDiv').show();
 });
+

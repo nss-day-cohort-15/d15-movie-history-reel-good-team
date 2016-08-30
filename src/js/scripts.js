@@ -100,7 +100,6 @@ $(document).on('keypress','#title',function(evt){
          });
          $('#title').val("");
          console.log("first call to OMDB", OMDbMovies);
-         var numberOfMovies = OMDbIDs.length;
          OMDbIDs.forEach(function(id, index){
            for (let movieOption in fbData) {
             // Compare OMDb and Firebase results
@@ -111,6 +110,7 @@ $(document).on('keypress','#title',function(evt){
            }
          });
          let i = 0;
+         var numberOfMovies = OMDbIDs.length;
       // Call OMDb with IMDb IDs for actors
          OMDbIDs.forEach(function(ids, index) {
            db.getMovieByID(ids)
