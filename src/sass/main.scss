@@ -19,12 +19,20 @@ body {
   // padding: 15px;
 }
 
+.mainBread, .secondBread {
+  color: grey;
+}
+
 .active-star {
   color: goldenrod;
 }
 
 .hover-star {
   color: goldenrod;
+}
+
+.active-button {
+  background-color: #eeeeee;
 }
 
 i {
