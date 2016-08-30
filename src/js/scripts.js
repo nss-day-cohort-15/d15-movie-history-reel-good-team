@@ -44,22 +44,21 @@ function checkNumberOfMovies (){
 }
 
 function disableButtons(){
-  $('.showUnwatched').addClass('disabled').removeClass('waves-effect waves-teal').attr('disabled');
-  $('.showWatched').addClass('disabled').removeClass('waves-effect waves-teal').attr('disabled');
-  $('.showFavorites').addClass('disabled').removeClass('waves-effect waves-teal').attr('disabled');
+  $('.showUnwatched').addClass('disabled').removeClass('waves-effect').attr('disabled');
+  $('.showWatched').addClass('disabled').removeClass('waves-effect').attr('disabled');
+  $('.showFavorites').addClass('disabled').removeClass('waves-effect').attr('disabled');
 }
 
 function enableButtons(){
-  $('.showUnwatched').removeClass('disabled').addClass('waves-effect waves-teal').removeAttr('disabled');
-  $('.showWatched').removeClass('disabled').addClass('waves-effect waves-teal').removeAttr('disabled');
-  $('.showFavorites').removeClass('disabled').addClass('waves-effect waves-teal').removeAttr('disabled');
+  $('.showUnwatched').removeClass('disabled').addClass('waves-effect').removeAttr('disabled');
+  $('.showWatched').removeClass('disabled').addClass('waves-effect').removeAttr('disabled');
+  $('.showFavorites').removeClass('disabled').addClass('waves-effect').removeAttr('disabled');
 }
 
 // LOGIN BUTTON FUNCTIONALITY
 $(document).on('click', '#loginButton', function() {
   auth.loginWithGoogle()
   .then(function(){
-    console.log("welcome!");
     showBtn ('logoutButton', 'loginButton');
     checkNumberOfMovies();
     showProfileView();
@@ -73,6 +72,7 @@ $(document).on('click', '#logoutButton', function() {
     showBtn ('loginButton', 'logoutButton');
     $('.mainBread').html('');
     $('.display').html("");
+    disableButtons();
   });
 });
 
@@ -121,7 +121,11 @@ $(document).on('keypress','#title',function(evt){
           // Print only unique results, with Firebase results taking priority
               console.log("final list of MOvies", finalListOfMovies);
               template.showProfile(finalListOfMovies);
-              checkNumberOfMovies();
+              if (firebase.auth().currentUser === null){
+                disableButtons();
+              } else {
+                checkNumberOfMovies();
+              }
              }
            });
          });
