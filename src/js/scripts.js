@@ -2,6 +2,8 @@
 
 let auth = require('./auth'),
     db = require('./db-interaction'),
+    buttonEvents = require('./button-events'),
+    starHover = require('./star-hover'),
     template = require('./template.js'),
     firebase = require("firebase/app");
 
@@ -80,6 +82,8 @@ $(document).on('click', '#logoutButton', function() {
 // MOVIE SEARCH FUNCTIONALITY
 $(document).on('keypress','#title',function(evt){
   if (evt.keyCode === 13) {
+    $('.mainBread').html('Search > ');
+    $('.secondBread').html('');
     finalListOfMovies = {};
     let title = $('#title').val();
     // Call firebase for filtered searh results
@@ -147,12 +151,13 @@ function saveMovie(evt, bool) {
   });
 }
 
-// PROFILE FUNCTIONALITY
+// PROFILE DISPLAYS ON LOGIN
 function showProfileView (){
   db.getSavedMovies()
     .then(function(data){
       finalListOfMovies = data;
       template.showProfile(finalListOfMovies);
+      $('.mainBread').html('Home > ');
     });
 }
 
@@ -161,11 +166,13 @@ $(document).on('click','.delete-btn',function(evt){
   let key = $(evt.currentTarget).attr("key");
   db.deleteMovie(key)
     .then(function(){
+      delete finalListOfMovies[key];
       template.showProfile(finalListOfMovies);
       checkNumberOfMovies();
     });
 });
 
+<<<<<<< HEAD
 // SHOW UNWATCHED OR WATCHED FILMS WITHIN PROFILE
 $(document).on('click', '.showWatched', function() {
     $('.movieCard').css('display', 'inline-block');
@@ -202,9 +209,11 @@ function starHoverOff(evt) {
 }
 
 // UPDATE SEEN MOVIES IN PROFILE
+=======
+// UPDATE MOVIE RATINGS
+>>>>>>> master
 $(document).on('click', '.userRating', updateRating);
 
-//UPDATE THE RATING GIVEN
 function updateRating (e){
   let movieId = $(e.currentTarget).attr('key');
   let ratingValue = $(e.currentTarget).attr('class').split(' ')[0];
@@ -215,20 +224,3 @@ function updateRating (e){
       template.showProfile(finalListOfMovies);
   });
 }
-
-// function updateWatchedMovie (e){
-//   let movieId = $(e.currentTarget).attr('key');
-//   let watched = {"watched": true};
-//   db.updateMovie(movieId, watched)
-//     .then(()=>{
-//       showProfileView();
-//     });
-// }
-
-// function reloadProfile() {
-//   db.getSavedMovies()
-//     .then(function(data) {
-//         console.log("movie data", data);
-//         template.showProfile(data);
-//     });
-// }
