@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>REEL GOOD MOVIE HISTORY</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="bower_components/materialize/dist/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="dist/main.css">
+</head>
+
+<body>
+<div class="container">
+    <nav>
+        <div class="nav-wrapper indigo darken-3">
+        <div class="row">
+            <div class="col s10 input-field">
+                <input id="title" placeholder="Search OMDb and your tracked movies.." required />
+                <label for="title"><i class="material-icons">search</i></label>
+            </div>
+            <div class="col s2">
+                <ul id="nav-mobile" class="right">
+                <li><a id="loginButton" class="waves-effect waves-light btn hidden cyan lighten-4">Login/Register</a></li>
+                <li><a id="logoutButton" class="hidden waves-effect waves-light btn cyan lighten-4">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+
+        <h4> Movie History > <span class="mainBread"></span><span class="secondBread"></span></h4>
+        <div class="display">
+            <h3>Welcome to <i>Movie History!</i> </h3>
+            <div class="landingPage valign-wrapper">
+                <div class="col offset-md2 md-5 valign">
+                    <h5 class="">Please go ahead and login using your <strong>Google</strong> account!</h5>
+                    <p>
+                      You are now entering into the most premier movie database ever created.
+                    </p>
+                    <p>
+                        You can still search for movies even without logging in!
+                    </p>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="bower_components/materialize/dist/js/materialize.min.js"></script>
+    <script type="text/javascript" src="dist/app.js"></script>
+    <script src="//localhost:35729/livereload.js"></script>
+</body>
+
+</html>

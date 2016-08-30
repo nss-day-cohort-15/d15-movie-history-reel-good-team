@@ -1,0 +1,25 @@
+{
+  "name": "template",
+  "authors": [
+    "Matt Kraatz <matt.kraatz@gmail.com>"
+  ],
+  "description": "boilerplate repo for new projects",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.0",
+    "bootstrap": "^3.3.7",
+    "materialize": "^0.97.7"
+  },
+  "devDependencies": {
+    "jasmine-core": "jasmine#^2.4.1"
+  }
+}
