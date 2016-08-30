@@ -23,15 +23,21 @@ Handlebars.registerHelper('checkAuth',function(){
 
 function showSearchResults (searchData){
   $('.display').html(searchMovies(searchData));
+  console.log('This works')
+
 }
 
 function showFindMovie (){
   $('.display').html(searchMovies);
+  console.log('This works')
+
 }
 
 function showProfile(data) {
   console.log(data);
+  console.log('This works')
   $('.display').html(showSavedMovies(data));
+
 }
 
 module.exports = {showSearchResults, showFindMovie, showProfile};

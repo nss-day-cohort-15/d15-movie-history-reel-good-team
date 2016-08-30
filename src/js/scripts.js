@@ -160,3 +160,4 @@ function updateRating (e){
       template.showProfile(finalListOfMovies);
   });
 }
+
