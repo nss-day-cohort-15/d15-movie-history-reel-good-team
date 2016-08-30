@@ -7,7 +7,8 @@ let auth = require('./auth'),
 
 let OMDbMovies,
 fbData= {},
-OMDbIDs = [];
+OMDbIDs = [],
+numberOfMovies;
 
 var finalListOfMovies = {};
 
@@ -27,12 +28,39 @@ function showBtn (id1, id2){
   $(`#${id2}`).addClass('hidden');
 }
 
+//Determine the number of movies in a user's watchlist
+//to determine whether buttons need to be disabled
+function checkNumberOfMovies (){
+  db.getSavedMovies()
+  .then((data)=>{
+    if (data === null){
+      disableButtons();
+    } else {
+      enableButtons();
+    }
+  })
+}
+
+function disableButtons(){
+  $('.showUnwatched').addClass('disabled').removeClass('waves-effect waves-teal');
+  $('.showWatched').addClass('disabled').removeClass('waves-effect waves-teal');
+  $('.showFavorites').addClass('disabled').removeClass('waves-effect waves-teal');
+}
+
+function enableButtons(){
+  $('.showUnwatched').removeClass('disabled').addClass('waves-effect waves-teal');
+  $('.showWatched').removeClass('disabled').addClass('waves-effect waves-teal');
+  $('.showFavorites').removeClass('disabled').addClass('waves-effect waves-teal');
+}
+
+
 // LOGIN BUTTON FUNCTIONALITY
 $(document).on('click', '#loginButton', function() {
   auth.loginWithGoogle()
   .then(function(){
     console.log("welcome!");
     showBtn ('logoutButton', 'loginButton');
+    checkNumberOfMovies();
     showProfileView();
   });
 });
@@ -91,6 +119,7 @@ $(document).on('keypress','#title',function(evt){
              if (i === (numberOfMovies - 1)){
           // Print only unique results, with Firebase results taking priority
               template.showProfile(finalListOfMovies);
+              checkNumberOfMovies();
              }
            })
          })
@@ -98,12 +127,6 @@ $(document).on('keypress','#title',function(evt){
     });
   }
 });
-
-$(document).on('click', '.findMovies', showFindMovies);
-
-function showFindMovies() {
-    template.showFindMovie();
-}
 
 // SAVE MOVIE FUNCTIONALITY
 $(document).on('click', ".addMovie", function(evt) {
@@ -119,6 +142,7 @@ function saveMovie(evt, bool) {
   .then(function(data) {
     finalListOfMovies[data.path.o[2]] = finalListOfMovies[key];
     delete finalListOfMovies[key];
+    enableButtons();
     template.showProfile(finalListOfMovies);
   });
 }
@@ -138,6 +162,7 @@ $(document).on('click','.delete-btn',function(evt){
   db.deleteMovie(key)
     .then(function(){
       template.showProfile(finalListOfMovies);
+      checkNumberOfMovies();
     });
 });
 
@@ -157,7 +182,6 @@ $(document).on('click', '.showAll', function() {
 });
 
 // STAR HOVER FUNCTIONALITY
-
 $(document).on({
   mouseenter: starHoverOn,
   mouseleave: starHoverOff
