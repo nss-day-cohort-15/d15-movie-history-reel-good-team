@@ -8,6 +8,27 @@
 
 </div>
 <div class="row">
+
+{{#unless this}}
+  <div class="col offset-m1 m8 newUser">
+    <h4>You need to search and add movies to your account.</h4>
+      <ol>
+        <li>
+          First you need to search for an item using the above search bar!
+        </li>
+        <li>
+          Then you can click <button class="waves-effect waves-light btn">Add to Watchlist</button>
+        </li>
+        <li>
+          After you follow these steps go ahead and rate your movie using our <i class="material-icons">star</i> feature!
+        </li>
+        <li>
+          Remember that 10 stars makes your movie a favorite!
+        </li>
+      </ol>
+
+  </div>
+{{/unless}}
 {{#each this}}
 <div class="movieDiv col m4 col s6">
   {{#if saved}}
@@ -19,12 +40,12 @@
   {{else}}
   <div class="z-depth-1 movieCard center-align">
   {{/if}}
-  <h4 class="title"> {{Title}} </h4>
+  <h5 class="title"> {{Title}} </h5>
   <img src="{{Poster}}" alt="{{Title}} Image" class="movieImg">
   <p> Released in {{Year}} </p>
-  <p> {{Actors}} </p>
+  <p> Staring: {{Actors}} </p>
   {{#if saved}}
-  <span class="rating"> Rate
+  <span class="rating">
     <i key="{{@key}}" class="1 material-icons userRating {{activateStars rating 1}}">star</i>
     <i key="{{@key}}" class="2 material-icons userRating {{activateStars rating 2}}">star</i>
     <i key="{{@key}}" class="3 material-icons userRating {{activateStars rating 3}}">star</i>
@@ -38,9 +59,6 @@
   </span>
   {{else}}
     <button type="button" class="addMovie" key="{{@key}}" style="{{checkAuth}}"> Add to Watchlist </button>
-  {{/if}}
-  {{#if rating}}
-  <span> You've rated this movie {{rating}} stars.</span>
   {{/if}}
 </div>
 </div>
