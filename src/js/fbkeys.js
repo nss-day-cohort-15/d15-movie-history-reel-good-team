@@ -2,9 +2,9 @@
 
 function getKey() {
   return {
-    key: "AIzaSyCUmLaJzT9PXQ6bhvwtTlWhoGZv4b_qm0Q",
-    authUrl: "reel-good-movie-history.firebaseapp.com",
-    databaseUrl: "https://reel-good-movie-history.firebaseio.com/"
+    key: "AIzaSyBqlH5nq52YvEc-etWM5EZFpfUecnf50vc",
+    authUrl: "movie-history-7fd8a.firebaseapp.com",
+    databaseUrl: "https://movie-history-7fd8a.firebaseio.com"
   };
 }
 

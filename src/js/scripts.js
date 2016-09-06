@@ -83,6 +83,7 @@ $(document).on('keypress','#title',function(evt){
     $('.secondBread').html('');
     finalListOfMovies = {};
     let title = $('#title').val();
+     $('.firstMuffin').html(`${title}`);
     // Call firebase for filtered searh results
     db.getSavedMovies()
     .then((data)=>{
@@ -190,6 +191,15 @@ function updateRating (e){
       enableButtons();
   });
 }
+
+
+$(document).on('click', '#homeLink', function(evt) {
+  checkNumberOfMovies();
+  showProfileView();
+  $('.mainBread').html('Home > ');
+  $('.secondBread').html('');
+  $('.firstMuffin').html('');
+});
 
 //Button functionality
 // $(document).on('click', '.showUntracked', function(evt) {

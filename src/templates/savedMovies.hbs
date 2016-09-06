@@ -4,9 +4,17 @@
   <button class="filter waves-effect btn-flat showUntracked" type="button">Show Untracked</button>
   <button class="filter btn-flat showUnwatched disabled" type="button" disabled>Show Unwatched</button>
   <button class="filter btn-flat showWatched disabled" type="button" disabled>Show Watched</button>
-  <button class="filter btn-flat showFavorites disabled" type="button" disabled>Favorites</button>
-
 </div>
+
+<div id="rangeDiv" class="row hidden">
+  <form action="#">
+      <label class="z-depth-1 cyan lighten-4">Filter by Rating</label>
+      <p class="range-field">
+      <input type="range" id="ratingRange" min="0" max="10" />
+      </p>
+  </form>
+</div>
+
 <div class="row">
 
 {{#unless this}}

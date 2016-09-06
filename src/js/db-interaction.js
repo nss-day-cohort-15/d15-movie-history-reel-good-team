@@ -66,7 +66,7 @@ function updateMovie (movieId, property){
   let userId = firebase.auth().currentUser.uid;
   return new Promise(function(resolve,reject){
     $.ajax({
-      url: `https://reel-good-movie-history.firebaseio.com/users/${userId}/${movieId}.json`,
+      url: `https://movie-history-7fd8a.firebaseio.com//users/${userId}/${movieId}.json`,
       method: 'PATCH',
       data: JSON.stringify(property),
       dataType: "json"
